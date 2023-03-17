@@ -1,6 +1,8 @@
 # CSEN401-Game
 install tortoise git
+
 clone the repository in a new folder(X)
+
 ALL IN X
 to get commands right click in the folder ,more options,hover over tortoise git.
 A]steps in refreshing the code before changing the code{
