@@ -5,11 +5,7 @@ import java.util.List;
 import java.io.*;
 
 
-import model.characters.Explorer;
-import model.characters.Fighter;
-import model.characters.Hero;
-import model.characters.Medic;
-import model.characters.Zombie;
+import model.characters.*;
 import model.world.Cell;
 
 public class Game {
