@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.collectibles.Supply;
 import model.collectibles.Vaccine;
 
-public class Hero extends Character{
+public abstract class Hero extends Character{
 	
 	private int actionsAvailable;
 	private int maxActions;
@@ -16,9 +16,9 @@ public class Hero extends Character{
 	public Hero(String name, int maxHp, int attackDmg, int maxActions) {
 		super(name, maxHp, attackDmg);
 		this.maxActions = maxActions;
-		actionsAvailable = maxActions;
-		vaccineInventory = new ArrayList<Vaccine>();
-		supplyInventory = new ArrayList<Supply>();
+		this.actionsAvailable = maxActions;
+		this.vaccineInventory = new ArrayList<Vaccine>();
+		this.supplyInventory = new ArrayList<Supply>();
 	}
 
 	public ArrayList<Vaccine> getVaccineInventory() {

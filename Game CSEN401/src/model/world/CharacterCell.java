@@ -6,10 +6,7 @@ public class CharacterCell extends Cell {
 	private Character character;
 	private boolean isSafe;
 	
-	public CharacterCell(boolean isVisible) {
-		super(isVisible);
-		// TODO Auto-generated constructor stub
-	}
+
 	public CharacterCell(Character ch) {
 	super();
 	this.character=ch;

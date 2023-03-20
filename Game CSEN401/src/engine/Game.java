@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 
-
-import model.characters.*;
+import model.characters.Explorer;
+import model.characters.Fighter;
+import model.characters.Hero;
+import model.characters.Medic;
+import model.characters.Zombie;
 import model.world.Cell;
 
 public class Game {
@@ -16,9 +19,7 @@ public class Game {
 	public static Cell[][] map;
 	
 	public static void loadHeroes(String filePath) throws Exception {
-		if(filePath==null) {
-			throw new Exception();
-		}
+
 		String line = "";
 		String csvSplitBy = ",";
 		List<String[]> data = new ArrayList<>();
@@ -30,11 +31,8 @@ public class Game {
 				data.add(row);				
 			}
 		}
-			catch(FileNotFoundException e) {
-				System.out.println("file was not found");
-			}
 			
-			for(int i=0; i<8; i++) {
+			for(int i=0; i<data.size(); i++) {
 				String name;
 				String type;
 				int maxHp;
@@ -59,26 +57,27 @@ public class Game {
 				switch(type) {
 				case("FIGH"):
 					//System.out.println(name + " F");
-					availableHeroes.add(new Fighter(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Fighter(name, maxHp,attackDmg,maxActions)); break;
 				case("MED"):
 					//System.out.println(name + " M");
-					availableHeroes.add(new Medic(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Medic(name, maxHp,  attackDmg,maxActions)); break;
 				case("EXP"):
 					//System.out.println(name + " E");
-					availableHeroes.add(new Explorer(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Explorer(name, maxHp,attackDmg,maxActions)); break;
 				}
 			}
 			System.out.println();
 		
 	}
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
-			loadHeros("F:\\Programs\\Java\\Projects\\Game CSEN401\\src\\engine\\Heros.csv");
+			loadHeroes("F:\\Programs\\Java\\Projects\\Game CSEN401\\src\\engine\\Heros.csv");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 		e.printStackTrace();
 		}
-		for(int i=0; i<availableHeros.size(); i++)
-			System.out.println(availableHeros.get(i).toString());
-	*/
+		for(int i=0; i<availableHeroes.size(); i++)
+			System.out.println(availableHeroes.get(i).toString());
+}
+	
 }
