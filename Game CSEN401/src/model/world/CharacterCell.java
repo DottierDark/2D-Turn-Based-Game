@@ -10,7 +10,15 @@ public class CharacterCell extends Cell {
 		super(isVisible);
 		// TODO Auto-generated constructor stub
 	}
-
+	public CharacterCell(Character ch) {
+	super();
+	this.character=ch;
+}
+	public CharacterCell(Character ch,boolean isSafe) {
+	super();
+	this.isSafe=isSafe;
+	this.character=ch;
+}
 	public Character getCharacter() {
 		return character;
 	}

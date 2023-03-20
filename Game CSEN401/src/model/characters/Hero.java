@@ -15,8 +15,10 @@ public class Hero extends Character{
 	
 	public Hero(String name, int maxHp, int attackDmg, int maxActions) {
 		super(name, maxHp, attackDmg);
-		// TODO Auto-generated constructor stub
 		this.maxActions = maxActions;
+		actionsAvailable = maxActions;
+		vaccineInventory = new ArrayList<Vaccine>();
+		supplyInventory = new ArrayList<Supply>();
 	}
 
 	public ArrayList<Vaccine> getVaccineInventory() {

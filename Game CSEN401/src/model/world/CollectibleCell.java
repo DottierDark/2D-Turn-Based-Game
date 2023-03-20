@@ -1,15 +1,17 @@
 package model.world;
 import model.collectibles.Collectible;
 
-public class CollectibleCell extends Cell  {
+public class CollectibleCell extends Cell implements Collectible {
 	
 	private Collectible collectible;
 	
 	public CollectibleCell(boolean isVisible) {
 		super(isVisible);
-		// TODO Auto-generated constructor stub
 	}
-
+ public CollectibleCell(Collectible collectible) {
+	 super();
+	 this.collectible=collectible;
+ }
 	public Collectible getCollectible() {
 		return collectible;
 	}

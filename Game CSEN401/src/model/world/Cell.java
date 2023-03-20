@@ -1,10 +1,13 @@
 package model.world;
 
-public class Cell {
+public abstract class  Cell {
 	private boolean isVisible;
 	
 	public Cell(boolean isVisible) {
 		this.setVisible(isVisible); 
+	}
+	public Cell() {
+		this.setVisible(false);
 	}
 
 	public boolean isVisible() {

@@ -10,16 +10,19 @@ import model.world.Cell;
 
 public class Game {
 	
-	public static ArrayList<Hero> availableHeros;
-	public static ArrayList<Hero> heros;
+	public static ArrayList<Hero> availableHeroes;
+	public static ArrayList<Hero> heroes;
 	public static ArrayList<Zombie> zombies;
 	public static Cell[][] map;
 	
-	public static void loadHeros(String filePath) throws Exception {
+	public static void loadHeroes(String filePath) throws Exception {
+		if(filePath==null) {
+			throw new Exception();
+		}
 		String line = "";
 		String csvSplitBy = ",";
 		List<String[]> data = new ArrayList<>();
-		availableHeros = new ArrayList<Hero>();
+		availableHeroes = new ArrayList<Hero>();
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			while((line = br.readLine()) != null) {
@@ -27,6 +30,9 @@ public class Game {
 				data.add(row);				
 			}
 		}
+			catch(FileNotFoundException e) {
+				System.out.println("file was not found");
+			}
 			
 			for(int i=0; i<8; i++) {
 				String name;
@@ -53,26 +59,26 @@ public class Game {
 				switch(type) {
 				case("FIGH"):
 					//System.out.println(name + " F");
-					availableHeros.add(new Fighter(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Fighter(name, maxHp, maxActions, attackDmg)); break;
 				case("MED"):
 					//System.out.println(name + " M");
-					availableHeros.add(new Medic(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Medic(name, maxHp, maxActions, attackDmg)); break;
 				case("EXP"):
 					//System.out.println(name + " E");
-					availableHeros.add(new Explorer(name, maxHp, maxActions, attackDmg)); break;
+					availableHeroes.add(new Explorer(name, maxHp, maxActions, attackDmg)); break;
 				}
 			}
 			System.out.println();
 		
 	}
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			loadHeros("F:\\Programs\\Java\\Projects\\Game CSEN401\\src\\engine\\Heros.csv");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		e.printStackTrace();
 		}
 		for(int i=0; i<availableHeros.size(); i++)
 			System.out.println(availableHeros.get(i).toString());
-	}
+	*/
 }
