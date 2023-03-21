@@ -19,65 +19,46 @@ public class Game {
 	public static Cell[][] map;
 	
 	public static void loadHeroes(String filePath) throws Exception {
-
-		String line = "";
-		String csvSplitBy = ",";
-		List<String[]> data = new ArrayList<>();
+		// SAW IN STACKOVEFLOW CODE IN IMPORTING CSV FILES.
+		String line = ""; 
+		String csvSplitBy = ",";  // rows split by ','
+		List<String[]> HeroesData = new ArrayList<>();
 		availableHeroes = new ArrayList<Hero>();
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			while((line = br.readLine()) != null) {
-				String[] row = line.split(csvSplitBy);
-				data.add(row);				
+				String[] row = line.split(csvSplitBy); // split rows into string values
+				HeroesData.add(row);				
 			}
-		}
-			
-			for(int i=0; i<data.size(); i++) {
+			//end of stack overflow code.
+			for(int i=0; i<HeroesData.size(); i++) {
 				String name;
 				String type;
 				int maxHp;
 				int maxActions;
 				int attackDmg;
 				
-				//8 rows
-				String[] heroData = data.get(i);
-				//for(int j=0; j<heroData.length; j++)
-				//System.out.println(heroData[j]);
+				//get row with hero data from total list
+				String[] heroData = HeroesData.get(i);
+				
 				// HeroData is row of csv with hero stats
 				name = heroData[0];
-				//System.out.println(heroData[0]);
 				type = heroData[1];
-				//System.out.println(heroData[1]);
 				maxHp = Integer.parseInt(heroData[2]);
-				//System.out.println(heroData[2]);
 				maxActions = Integer.parseInt(heroData[3]);
-				//System.out.println(heroData[3]);
 				attackDmg = Integer.parseInt(heroData[4]);
-				//System.out.println(heroData[4]);
 				switch(type) {
-				case("FIGH"):
-					//System.out.println(name + " F");
-					availableHeroes.add(new Fighter(name, maxHp,attackDmg,maxActions)); break;
-				case("MED"):
-					//System.out.println(name + " M");
-					availableHeroes.add(new Medic(name, maxHp,  attackDmg,maxActions)); break;
-				case("EXP"):
-					//System.out.println(name + " E");
-					availableHeroes.add(new Explorer(name, maxHp,attackDmg,maxActions)); break;
+				case("FIGH"): // Fighter case
+					availableHeroes.add(new Fighter(name, maxHp, attackDmg, maxActions)); break;
+				case("MED"): // Medic case
+					availableHeroes.add(new Medic(name, maxHp, attackDmg, maxActions)); break;
+				case("EXP"): // Explorer cases
+					availableHeroes.add(new Explorer(name, maxHp, attackDmg, maxActions)); break;
 				}
 			}
-			System.out.println();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
-	public static void main(String[] args) {
-		try {
-			loadHeroes("F:\\Programs\\Java\\Projects\\Game CSEN401\\src\\engine\\Heros.csv");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-		for(int i=0; i<availableHeroes.size(); i++)
-			System.out.println(availableHeroes.get(i).toString());
-}
-	
 }

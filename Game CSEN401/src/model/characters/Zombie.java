@@ -1,13 +1,18 @@
 package model.characters;
 
-public class Zombie extends Character{
+public class Zombie extends Character {
 	
-	private static int ZOMBIES_COUNT=1;
+	private static int ZOMBIES_COUNT = 1;
 	
 	public Zombie() {
-		super("Zombie " + ZOMBIES_COUNT ,40, 10);
-		++ZOMBIES_COUNT;
+		super("Zombie " + ZOMBIES_COUNT++ , 40, 10); 
+		//this.setCurrentHp(40);
+		// TODO Auto-generated constructor stub
 	}
+
+	
+	
+	
 
 	
 }

@@ -1,4 +1,5 @@
 package model.world;
+
 import model.characters.Character;
 
 public class CharacterCell extends Cell {
@@ -6,16 +7,12 @@ public class CharacterCell extends Cell {
 	private Character character;
 	private boolean isSafe;
 	
-
-	public CharacterCell(Character ch) {
-	super();
-	this.character=ch;
-}
-	public CharacterCell(Character ch,boolean isSafe) {
-	super();
-	this.isSafe=isSafe;
-	this.character=ch;
-}
+	public CharacterCell(Character character) {
+		super();
+		this.character = character;
+		isSafe = false;
+	}
+	
 	public Character getCharacter() {
 		return character;
 	}
@@ -25,13 +22,13 @@ public class CharacterCell extends Cell {
 	}
 
 	public boolean isSafe() {
+		
 		return isSafe;
 	}
 
 	public void setSafe(boolean isSafe) {
+		
 		this.isSafe = isSafe;
 	}
-	
-	
 
 }
