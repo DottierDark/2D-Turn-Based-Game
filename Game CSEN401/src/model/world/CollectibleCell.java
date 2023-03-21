@@ -5,9 +5,6 @@ public class CollectibleCell extends Cell implements Collectible {
 	
 	private Collectible collectible;
 	
-	public CollectibleCell(boolean isVisible) {
-		super(isVisible);
-	}
  public CollectibleCell(Collectible collectible) {
 	 super();
 	 this.collectible=collectible;

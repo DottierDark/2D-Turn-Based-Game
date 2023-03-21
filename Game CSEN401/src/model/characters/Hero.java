@@ -49,14 +49,4 @@ public abstract class Hero extends Character{
 		this.specialAction = specialAction;
 	}
 	
-	
-	// TO DELETE
-	public String toString() {
-		return "name: " + getName();
-	}
-
-	
-	
-
-	
 }
