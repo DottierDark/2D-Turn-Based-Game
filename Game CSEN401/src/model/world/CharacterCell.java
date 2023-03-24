@@ -13,6 +13,18 @@ public class CharacterCell extends Cell {
 		isSafe = false;
 	}
 	
+	public CharacterCell(Character character, boolean isSafe) {
+		super();
+		this.character = character;
+		this.isSafe = isSafe;
+	}
+	
+	public CharacterCell(Character character,  boolean isSafe, boolean isVisible) {
+		super(isVisible);
+		this.character = character;
+		this.isSafe = isSafe;
+	}
+	
 	public Character getCharacter() {
 		return character;
 	}
@@ -22,12 +34,10 @@ public class CharacterCell extends Cell {
 	}
 
 	public boolean isSafe() {
-		
 		return isSafe;
 	}
 
 	public void setSafe(boolean isSafe) {
-		
 		this.isSafe = isSafe;
 	}
 

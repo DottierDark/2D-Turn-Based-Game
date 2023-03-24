@@ -34,7 +34,7 @@ public abstract class Hero extends Character{
 	}
 
 	public void setActionsAvailable(int actionsAvailable) {
-		this.actionsAvailable = actionsAvailable;
+	        this.actionsAvailable = actionsAvailable;
 	}
 
 	public int getMaxActions() {

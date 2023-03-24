@@ -6,13 +6,7 @@ public class Zombie extends Character {
 	
 	public Zombie() {
 		super("Zombie " + ZOMBIES_COUNT++ , 40, 10); 
-		//this.setCurrentHp(40);
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
-	
-
-	
 }
