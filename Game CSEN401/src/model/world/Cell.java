@@ -8,10 +8,6 @@ public abstract class Cell {
 		isVisible = false;
 	}
 	
-	public Cell(boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-
 	public boolean isVisible() {
 		return isVisible;
 	}

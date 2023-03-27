@@ -20,7 +20,7 @@ public class CharacterCell extends Cell {
 	}
 	
 	public CharacterCell(Character character,  boolean isSafe, boolean isVisible) {
-		super(isVisible);
+		super();
 		this.character = character;
 		this.isSafe = isSafe;
 	}

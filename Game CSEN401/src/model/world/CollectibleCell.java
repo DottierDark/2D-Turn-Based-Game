@@ -11,7 +11,7 @@ public class CollectibleCell extends Cell  {
 	}
 	
 	public CollectibleCell(Collectible collectible, boolean isVisible) {
-		super(isVisible);
+		super();
 		this.collectible = collectible;
 	}
 
