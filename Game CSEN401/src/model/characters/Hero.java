@@ -48,5 +48,14 @@ public abstract class Hero extends Character{
 	public void setSpecialAction(boolean specialAction) {
 		this.specialAction = specialAction;
 	}
+	public void move(Direction d) {
+		// TODO Auto-generated method stub
+	}
+	public void useSpecial() {
+		// TODO Auto-generated method stub
+	}
+	public void cure() {
+		// TODO Auto-generated method stub
+	}
 	
 }

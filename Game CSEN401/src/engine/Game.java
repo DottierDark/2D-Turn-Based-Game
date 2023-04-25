@@ -63,4 +63,22 @@ public class Game {
 		}
 		
 	}
+	
+	
+	public static void startGame(Hero h) {
+		// TODO Auto-generated method stub
+	}
+	
+	public static boolean checkWin() {
+		// TODO Auto-generated method stub
+	}
+	
+	public static boolean checkGameOver() {
+		// TODO Auto-generated method stub
+	}
+	
+	public static void endTurn() {
+		// TODO Auto-generated method stub
+	}
+	
 }

@@ -57,6 +57,13 @@ public abstract class Character {
 	public int getAttackDmg() {
 		return attackDmg;
 	}
-
-	
+	public void attack() {
+		// TODO Auto-generated method stub
+	}
+	public void defend(Character c) {
+		// TODO Auto-generated method stub
+	}
+	public void onCharacterDeath() {
+		// TODO Auto-generated method stub
+	}
 }
