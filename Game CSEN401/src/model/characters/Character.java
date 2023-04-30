@@ -65,13 +65,16 @@ public abstract class Character {
 		// TODO Auto-generated method stub
 	}
 	public void onCharacterDeath() {
-		Character ch = this.getTarget();
-		if (ch instanceof Explorer || ch instanceof Medic ||ch instanceof Fighter ){
-			boolean t = heroes.remove(ch);
-			
+		if (this instanceof Explorer || this instanceof Medic ||this instanceof Fighter ){
+			Game.heroes.remove(this);
+			Game.availableHeroes.remove(this);
+			int x = this.location.x;
+			int y = this.getLocation().y;
+			Game.map[x][y] = null;
 		}
-		if(ch instanceof Zombie) {
-			Zombie z = new Zombie();
+		if(this instanceof Zombie) {
+			
+			Game.spawn_zombies(1);
 			
 			
 		}
