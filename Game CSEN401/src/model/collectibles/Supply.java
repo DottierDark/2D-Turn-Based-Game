@@ -1,5 +1,6 @@
 package model.collectibles;
 
+import exceptions.NotEnoughActionsException;
 import model.characters.Hero;
 
 public class Supply implements Collectible{
@@ -8,15 +9,13 @@ public class Supply implements Collectible{
 	}
 
 	@Override
-	public void pickUp(Hero h) {
-		// TODO Auto-generated method stub
-		
+	public void pickUp(Hero h)   {
+		h.getSupplyInventory().add(this);
 	}
 
 	@Override
-	public void use(Hero h) {
-		// TODO Auto-generated method stub
-		
+	public void use(Hero h) throws NotEnoughActionsException {
+		h.getSupplyInventory().remove(this);
 	}
 	
 }

@@ -1,5 +1,7 @@
 package model.characters;
+
 import java.awt.Point;
+
 
 public abstract class Character {
 	private String name;
@@ -8,15 +10,31 @@ public abstract class Character {
 	private int currentHp;
 	private int attackDmg;
 	private Character target;
-	
-	public Character(String name, int maxHp, int attackDmg) {
-		this.name = name;
-	    this.maxHp = maxHp;
-	    this.currentHp = maxHp;
-		this.attackDmg = attackDmg;
-	}
 
 	
+	public Character() {
+	}
+	
+
+	public Character(String name, int maxHp, int attackDmg) {
+		this.name=name;
+		this.maxHp = maxHp;
+		this.currentHp = maxHp;
+		this.attackDmg = attackDmg;
+	}
+		
+	public Character getTarget() {
+		return target;
+	}
+
+	public void setTarget(Character target) {
+		this.target = target;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
 	public Point getLocation() {
 		return location;
 	}
@@ -25,45 +43,26 @@ public abstract class Character {
 		this.location = location;
 	}
 
+	public int getMaxHp() {
+		return maxHp;
+	}
+
 	public int getCurrentHp() {
 		return currentHp;
 	}
 
 	public void setCurrentHp(int currentHp) {
-		if(currentHp < 0)
+		if(currentHp < 0) 
 			this.currentHp = 0;
-		else if(currentHp > maxHp)
+		else if(currentHp > maxHp) 
 			this.currentHp = maxHp;
-		else
+		else 
 			this.currentHp = currentHp;
-	}
-
-	public Character getTarget() {
-		return target;
-	}
-
-	public void setTarget(Character target) {
-		this.target = target;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getMaxHp() {
-		return maxHp;
 	}
 
 	public int getAttackDmg() {
 		return attackDmg;
 	}
-	public void attack() {
-		// TODO Auto-generated method stub
-	}
-	public void defend(Character c) {
-		// TODO Auto-generated method stub
-	}
-	public void onCharacterDeath() {
-		// TODO Auto-generated method stub
-	}
+	
+
 }
