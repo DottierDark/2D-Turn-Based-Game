@@ -13,6 +13,10 @@ public class Zombie extends Character {
 
 	public void attack() throws InvalidTargetException {
 
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
 		if(!this.adjacent(this.getTarget())) {
 			throw new InvalidTargetException("Target is not in range");
 		}

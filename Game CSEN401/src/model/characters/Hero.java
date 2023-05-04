@@ -59,7 +59,7 @@ public abstract class Hero extends Character{
 		this.specialAction = specialAction;
 	}
 
-	public void moveHelper(int x, int y)  throws MovementException{
+	public void moveHelper(int x, int y)  throws MovementException {
 
 		if(x < 0 || x > 14 || y < 0 || y > 14) {
 			throw new MovementException("Out of bounds");
@@ -72,6 +72,7 @@ public abstract class Hero extends Character{
 		if(Game.map[x][y] instanceof TrapCell) {
 			setCurrentHp(getCurrentHp() - ((TrapCell) Game.map[x][y]).getTrapDamage());
 			if(getCurrentHp() == 0) {
+				Game.updateMap();
 				return;
 			}
 		}
@@ -85,7 +86,7 @@ public abstract class Hero extends Character{
 		Game.map[x][y] = new CharacterCell(this);
 		this.setLocation(new Point(x, y));
 		this.setActionsAvailable(actionsAvailable-1);
-
+	
 		// Updating visibilty after hero moves
 		for(int j=x-1; j<x+2; j++) {
 			for(int k=y-1; k<y+2; k++) {
@@ -124,6 +125,18 @@ public abstract class Hero extends Character{
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
 
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
+
+		if(!(this.getTarget() instanceof Zombie)) {
+			throw new InvalidTargetException("Target of attack must be a Zombie");
+		}
+
 		if(this.actionsAvailable == 0 && !(this instanceof Fighter && ((Fighter) this).isSpecialAction() == true)) {
 			throw new NotEnoughActionsException("Not enough actions to attack");
 		}
@@ -137,15 +150,31 @@ public abstract class Hero extends Character{
 	}
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
-		
+
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
+
+		if(this.getSupplyInventory().isEmpty()) {
+			throw new NoAvailableResourcesException("No supplies available");
+		}
+
 		this.getSupplyInventory().get(0).use(this);
 		this.setSpecialAction(true);
 	}
 
 	public void cure() throws NotEnoughActionsException , NoAvailableResourcesException, InvalidTargetException {
 		
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
 		if(!this.adjacent(this.getTarget())) {
 			throw new InvalidTargetException("Target is not in range");
+		}
+
+		if(!(this.getTarget() instanceof Zombie)) {
+			throw new InvalidTargetException("Target of attack must be a Zombie");
 		}
 
 		if(this.getVaccineInventory().size() == 0) {
@@ -156,9 +185,7 @@ public abstract class Hero extends Character{
 			throw new NotEnoughActionsException("Not enough actions available");
 		}
 
-		if(this.getTarget() == null) {
-			throw new InvalidTargetException("No target selected");
-		}
+
 
 		Random rand = new Random();
 		int heroIndex = rand.nextInt(Game.availableHeroes.size()-1);
@@ -173,9 +200,8 @@ public abstract class Hero extends Character{
 
 		newHero.setLocation(location); // Set location of new hero to cured zombie location
 
-		this.getTarget().onCharacterDeath(); // Kill zombie
+		Game.zombies.remove(this.getTarget());
 		this.setTarget(null);
-
 
 		Game.availableHeroes.add(newHero); // Spawn hero
 	}

@@ -12,7 +12,7 @@ public class Medic extends Hero {
 	}
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
-
+		
 		super.useSpecial();
 		this.getTarget().setCurrentHp(this.getMaxHp());
 		

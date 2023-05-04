@@ -68,17 +68,8 @@ public abstract class Character {
 
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-
-		if(this.getTarget() == null) {
-			throw new InvalidTargetException("No target selected");
-		}
-
 		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		this.getTarget().defend(getTarget());
-
+		this.getTarget().defend(this);
 	}
 
 	public void defend(Character attacker) {
@@ -86,6 +77,7 @@ public abstract class Character {
 		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
 		
 	}
+
 	public void onCharacterDeath() {
 
 		if (this instanceof Explorer || this instanceof Medic ||this instanceof Fighter){
@@ -95,6 +87,7 @@ public abstract class Character {
 			int y = this.getLocation().y;
 			Game.map[x][y] = null;
 		}
+
 		if(this instanceof Zombie) {
 			Game.zombies.remove(this);
 			Game.spawnZombies(1);
@@ -104,6 +97,7 @@ public abstract class Character {
 	
 
 	public boolean adjacent(Character character) {
+		
 		Point location = this.getLocation();
 		Point target = character.getLocation();
 	

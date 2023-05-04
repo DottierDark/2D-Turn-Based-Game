@@ -111,8 +111,8 @@ public class Game {
 		heroes.add(h);
 		h.setLocation(new Point(0,0));
 		availableHeroes.remove(h);
-		updateMap();
 		setOnMap(new CharacterCell(h),0,0);
+		updateMap();
 		int x,y;
 		Random rand = new Random();
 
@@ -186,14 +186,12 @@ public class Game {
 	}
 	
 	public static boolean checkGameOver() {
-		if(heroes.isEmpty())
+
+		if(heroes.isEmpty()) {
 			return true;
-		for(Hero hero: heroes) {
-			if(!hero.getVaccineInventory().isEmpty())
-				return false;
 		}
-				
-		return true;
+
+		return checkWin();
 	}
 	
 	public static void endTurn() {
@@ -214,6 +212,10 @@ public class Game {
 			hero.setActionsAvailable(hero.getMaxActions());
 			hero.setSpecialAction(false);
 			hero.setTarget(null);
+		});
+
+		zombies.forEach((zombie)-> {
+			zombie.setTarget(null);
 		});
 
 		
