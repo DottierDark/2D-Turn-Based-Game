@@ -11,7 +11,7 @@ public class Supply implements Collectible{
 	}
 
 	@Override
-	public void pickUp(Hero h)   {
+	public void pickUp(Hero h) {
 		h.getSupplyInventory().add(this);
 	}
 

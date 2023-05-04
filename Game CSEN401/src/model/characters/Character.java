@@ -68,15 +68,16 @@ public abstract class Character {
 
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
-		if(this instanceof Hero) {
-			((Hero) this).attack();
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
 		}
 
-		if(this instanceof Zombie) {
-			((Zombie) this).attack();
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
 		}
 
-		this.getTarget().defend(this);
+		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
+		this.getTarget().defend(getTarget());
 
 	}
 

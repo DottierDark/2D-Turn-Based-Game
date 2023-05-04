@@ -1,6 +1,7 @@
 package model.characters;
 
 import exceptions.InvalidTargetException;
+import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
 
 public class Fighter extends Hero {
@@ -10,8 +11,8 @@ public class Fighter extends Hero {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void useSpecial() {
-		
+	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
+		super.useSpecial();
 	}
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {

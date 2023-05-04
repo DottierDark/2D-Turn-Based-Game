@@ -61,24 +61,23 @@ public abstract class Hero extends Character{
 
 	public void moveHelper(int x, int y)  throws MovementException{
 
-		if((x < 0 || x > 14) || (y < 0 || y > 14 )) {
+		if(x < 0 || x > 14 || y < 0 || y > 14) {
 			throw new MovementException("Out of bounds");
 		}
 
-		if(Game.map[x][y] instanceof CharacterCell) {
+		if(Game.map[x][y] instanceof CharacterCell && ((CharacterCell) Game.map[x][y]).getCharacter() != null) {
 			throw new MovementException("Occupied cell");
 		}
 
-		if(actionsAvailable == 0) {
-			throw new MovementException("No actions available");
-		}
-
 		if(Game.map[x][y] instanceof TrapCell) {
-			setCurrentHp(getCurrentHp() -((TrapCell) Game.map[x][y]).getTrapDamage());
+			setCurrentHp(getCurrentHp() - ((TrapCell) Game.map[x][y]).getTrapDamage());
+			if(getCurrentHp() == 0) {
+				return;
+			}
 		}
 
 		if(Game.map[x][y] instanceof CollectibleCell) {
-			((CollectibleCell) Game.map[x][y]).getCollectible().pickUp(null);;
+			((CollectibleCell) Game.map[x][y]).getCollectible().pickUp(this);;
 		}
 
 		Point currentLocation = this.getLocation();
@@ -86,9 +85,23 @@ public abstract class Hero extends Character{
 		Game.map[x][y] = new CharacterCell(this);
 		this.setLocation(new Point(x, y));
 		this.setActionsAvailable(actionsAvailable-1);
+
+		// Updating visibilty after hero moves
+		for(int j=x-1; j<x+2; j++) {
+			for(int k=y-1; k<y+2; k++) {
+				if(j >= 0 && j <= 14 && k >= 0 && k <= 14) {
+					Game.map[j][k].setVisible(true);
+				}
+			}
+		}
 	}
 
-	public void move(Direction d) throws MovementException {
+	public void move(Direction d) throws MovementException,  NotEnoughActionsException {
+
+		if(this.getActionsAvailable() == 0) {
+			throw new NotEnoughActionsException("No actions available");
+		}
+
 		String dir = d.toString();
 		Point currentLocation = this.getLocation();
 		int x = (int) currentLocation.getX();
@@ -111,43 +124,22 @@ public abstract class Hero extends Character{
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
 
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-
-		if(this.getTarget() == null) {
-			throw new InvalidTargetException("No target selected");
-		}
-
-		if(this instanceof Fighter) {
-			((Fighter) this).attack();
-		}
-
-		if(this.actionsAvailable == 0) {
+		if(this.actionsAvailable == 0 && !(this instanceof Fighter && ((Fighter) this).isSpecialAction() == true)) {
 			throw new NotEnoughActionsException("Not enough actions to attack");
 		}
 
-		this.actionsAvailable--;
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		this.getTarget().defend(getTarget());
-		
+		if(!(this instanceof Fighter && ((Fighter) this).isSpecialAction() == true)) {
+			this.actionsAvailable--;
+		}
+
+		super.attack();
+
 	}
 
-	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException {
+	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
+		
 		this.getSupplyInventory().get(0).use(this);
 		this.setSpecialAction(true);
-		switch(this.getClass().getSimpleName()) {
-		case "Fighter" :
-			((Fighter) this).useSpecial();
-			break;
-		case "Medic":
-			((Medic) this).useSpecial();
-			break;
-		case "Explorer":
-			((Explorer) this).useSpecial();
-			break;	
-		}
-		
 	}
 
 	public void cure() throws NotEnoughActionsException , NoAvailableResourcesException, InvalidTargetException {
