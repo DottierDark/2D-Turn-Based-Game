@@ -68,7 +68,11 @@ public abstract class Hero extends Character{
 		}
 	}
 
-	public void attack() throws InvalidTargetException, NotEnoughActionsException {
+	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
+
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
 
 		if(this.actionsAvailable == 0) {
 			throw new NotEnoughActionsException("Not enough actions to attack");

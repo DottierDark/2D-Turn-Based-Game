@@ -14,7 +14,6 @@ import model.collectibles.*;
 import java.util.Random;
 
 import exceptions.InvalidTargetException;
-import exceptions.NotEnoughActionsException;
 
 public class Game {
 	
@@ -153,10 +152,6 @@ public class Game {
 					zombie.attack();
 					break;
 				} catch (InvalidTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NotEnoughActionsException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

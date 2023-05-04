@@ -68,10 +68,6 @@ public abstract class Character {
 
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-
 		if(this instanceof Hero) {
 			((Hero) this).attack();
 		}
