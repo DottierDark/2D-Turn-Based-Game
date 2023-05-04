@@ -1,5 +1,6 @@
 package model.collectibles;
 
+import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
 import model.characters.Hero;
 
@@ -14,7 +15,7 @@ public class Supply implements Collectible{
 	}
 
 	@Override
-	public void use(Hero h) throws NotEnoughActionsException {
+	public void use(Hero h) throws NotEnoughActionsException,NoAvailableResourcesException {
 		h.getSupplyInventory().remove(this);
 	}
 	

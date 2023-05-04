@@ -1,6 +1,7 @@
 package model.characters;
 import java.awt.Point;
 import engine.Game;
+import exceptions.*;
 
 public abstract class Character {
 	private String name;
@@ -58,11 +59,32 @@ public abstract class Character {
 	public int getAttackDmg() {
 		return attackDmg;
 	}
-	public void attack() {
-		// TODO Auto-generated method stub
+	public void attack() throws InvalidTargetException {
+		
+	if(this.adjacent(this.getTarget())) {
+	this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
+	if(this.getTarget().getCurrentHp()==0) {
+		this.getTarget().onCharacterDeath();
+	}
+	else {
+		this.getTarget().defend(this);
+	}
+	}
+	
 	}
 	public void defend(Character c) {
-		// TODO Auto-generated method stub
+		
+	setTarget(c);
+	int x =	this.getAttackDmg();
+	this.attackDmg = x / 2;
+	try {
+		this.attack();
+	} catch (InvalidTargetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	this.attackDmg = x;
+	
 	}
 	public void onCharacterDeath() {
 		if (this instanceof Explorer || this instanceof Medic ||this instanceof Fighter ){
@@ -73,10 +95,23 @@ public abstract class Character {
 			Game.map[x][y] = null;
 		}
 		if(this instanceof Zombie) {
-			
+			Game.zombies.remove(this);
 			Game.spawn_zombies(1);
-			
-			
 		}
 	}
-}
+	
+
+	    public boolean adjacent(Character tar) {
+	    	  Point character = this.getLocation();
+	          Point target = tar.getLocation();
+
+	          int dx = Math.abs(character.x - target.x);
+	          int dy = Math.abs(character.y - target.y);
+
+	          if (dx <= 1 && dy <= 1) {
+	              return true;
+	          } else {
+	              return false;
+	          }
+	      }
+	    }

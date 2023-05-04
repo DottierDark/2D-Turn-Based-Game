@@ -13,6 +13,8 @@ import model.world.*;
 import model.collectibles.*;
 import java.util.Random;
 
+import exceptions.InvalidTargetException;
+
 public class Game {
 	
 	public static ArrayList<Hero> availableHeroes;
@@ -128,6 +130,23 @@ public class Game {
 	}
 	
 	public static void endTurn() {
+		
+		zombies.forEach((x) -> {
+			int i =0;
+			x.setTarget(heroes.get(i++));
+			try {
+				x.attack();
+			} catch (InvalidTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		
+		heroes.forEach((x)-> {
+			x.setActionsAvailable(x.getMaxActions());
+			x.setSpecialAction(false);
+			x.setTarget(null);
+		});
 		spawn_zombies(1);
 	}
 	
