@@ -29,6 +29,6 @@ public class Fighter extends Hero {
 		}
 		
 		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		
+		this.getTarget().defend(getTarget());
 	}
 }

@@ -81,7 +81,6 @@ public abstract class Character {
 	}
 
 	public void defend(Character attacker) {
-		
 		setTarget(attacker);
 		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
 		
@@ -106,14 +105,10 @@ public abstract class Character {
 	public boolean adjacent(Character character) {
 		Point location = this.getLocation();
 		Point target = character.getLocation();
-
+	
 		int dx = Math.abs(location.x - target.x);
 		int dy = Math.abs(location.y - target.y);
-
-		if (dx <= 1 && dy <= 1) {
-			return true;
-		} else {
-			return false;
-		}
+	
+		return dx <= 1 && dy <= 1;
 	}
 }

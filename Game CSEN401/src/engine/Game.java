@@ -2,6 +2,7 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 import java.io.*;
 
 import model.characters.Explorer;
@@ -20,7 +21,7 @@ public class Game {
 	public static ArrayList<Hero> availableHeroes;
 	public static ArrayList<Hero> heroes = new ArrayList<Hero>();
 	public static ArrayList<Zombie> zombies = new ArrayList<Zombie>();
-	public static Cell[][] map;
+	public static Cell[][] map = new Cell[15][15];
 	
 	public static void loadHeroes(String filePath) throws Exception {
 		// SAW IN STACKOVEFLOW CODE IN IMPORTING CSV FILES.
@@ -82,6 +83,7 @@ public class Game {
 			}
 		}
 		heroes.add(h);
+		h.setLocation(new Point(0,0));
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
 		int x,y;
@@ -95,8 +97,7 @@ public class Game {
 			do {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
-				
-			}while(map[x][y] !=null);
+			} while(((CharacterCell) map[x][y]).getCharacter() != null);
 			setOnMap(new CollectibleCell(new Supply()),x,y);
 		}
 
@@ -106,7 +107,8 @@ public class Game {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
 				
-			}while(map[x][y] !=null);
+			} while(((CharacterCell) map[x][y]).getCharacter() != null);
+			
 			setOnMap(new CollectibleCell(new Vaccine()),x,y);
 		}
 
@@ -116,7 +118,7 @@ public class Game {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
 				
-			}while(map[x][y] !=null);
+			} while(((CharacterCell) map[x][y]).getCharacter() != null);
 			setOnMap(new TrapCell(),x,y);
 		}
 	}

@@ -79,13 +79,14 @@ public abstract class Hero extends Character{
 		if(this instanceof Fighter) {
 			((Fighter) this).attack();
 		}
-		
+
 		if(this.actionsAvailable == 0) {
 			throw new NotEnoughActionsException("Not enough actions to attack");
 		}
 
 		this.actionsAvailable--;
 		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
+		this.getTarget().defend(getTarget());
 		
 	}
 
