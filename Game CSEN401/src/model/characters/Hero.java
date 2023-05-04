@@ -3,6 +3,7 @@ package model.characters;
 import java.util.ArrayList;
 
 import engine.Game;
+import exceptions.InvalidTargetException;
 import exceptions.MovementException;
 import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
@@ -52,20 +53,32 @@ public abstract class Hero extends Character{
 	public void setSpecialAction(boolean specialAction) {
 		this.specialAction = specialAction;
 	}
+
 	public void move(Direction d) throws MovementException {
-	String dir = d.toString();
-	switch(dir) {
-	case "UP": this.getLocation().translate(1,0);
-		break;
-	case "DOWN": this.getLocation().translate(-1, 0);
-		break;
-	case "LEFT": this.getLocation().translate(0, 1);
-		break;
-	case "RIGHT": this.getLocation().translate(0, -1);
-		break;
+		String dir = d.toString();
+		switch(dir) {
+			case "UP": this.getLocation().translate(1,0);
+				break;
+			case "DOWN": this.getLocation().translate(-1, 0);
+				break;
+			case "LEFT": this.getLocation().translate(0, 1);
+				break;
+			case "RIGHT": this.getLocation().translate(0, -1);
+				break;
+		}
 	}
-	
+
+	public void attack() throws InvalidTargetException, NotEnoughActionsException {
+
+		if(this.actionsAvailable == 0) {
+			throw new NotEnoughActionsException("Not enough actions to attack");
+		}
+
+		this.actionsAvailable--;
+		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
+		
 	}
+
 	public void useSpecial() throws NotEnoughActionsException , NoAvailableResourcesException {
 		this.getSupplyInventory().get(0).use(this);
 		this.setSpecialAction(true);
@@ -80,6 +93,7 @@ public abstract class Hero extends Character{
 		}
 		
 	}
+
 	public void cure() throws NotEnoughActionsException , NoAvailableResourcesException {
 		this.getVaccineInventory().get(0).use(this);
 	}

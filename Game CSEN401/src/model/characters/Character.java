@@ -33,12 +33,17 @@ public abstract class Character {
 	}
 
 	public void setCurrentHp(int currentHp) {
-		if(currentHp < 0)
+		if(currentHp < 0) {
 			this.currentHp = 0;
-		else if(currentHp > maxHp)
+			onCharacterDeath();
+		}
+		else if(currentHp > maxHp) {
 			this.currentHp = maxHp;
-		else
+		}	
+		else {
 			this.currentHp = currentHp;
+		}
+			
 	}
 
 	public Character getTarget() {
@@ -68,41 +73,21 @@ public abstract class Character {
 		}
 
 		if(this instanceof Hero) {
-			Hero h = (Hero) this;
-			if(h.getActionsAvailable() == 0) {
-				throw new NotEnoughActionsException("Not enough actions to attack");
-			}
+			((Hero) this).attack();
 		}
 
-		if(this.getClass() == getTarget().getClass()) {
-			throw new InvalidTargetException("Cant attack same type");
+		if(this instanceof Zombie) {
+			((Zombie) this).attack();
 		}
 
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		if(this.getTarget().getCurrentHp()==0) {
-			this.getTarget().onCharacterDeath();
-		}
-		else {
-			this.getTarget().defend(this);
-		}
+		this.getTarget().defend(this);
+
 	}
 
-	public void defend(Character c) {
+	public void defend(Character attacker) {
 		
-		setTarget(c);
-		int x =	this.getAttackDmg();
-		this.attackDmg = x / 2;
-		try {
-			this.attack();
-		} catch (InvalidTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotEnoughActionsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			this.attackDmg = x;
-		}
+		setTarget(attacker);
+		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
 		
 	}
 	public void onCharacterDeath() {
@@ -122,17 +107,17 @@ public abstract class Character {
 	}
 	
 
-	    public boolean adjacent(Character tar) {
-	    	  Point character = this.getLocation();
-	          Point target = tar.getLocation();
+	public boolean adjacent(Character character) {
+		Point location = this.getLocation();
+		Point target = character.getLocation();
 
-	          int dx = Math.abs(character.x - target.x);
-	          int dy = Math.abs(character.y - target.y);
+		int dx = Math.abs(location.x - target.x);
+		int dy = Math.abs(location.y - target.y);
 
-	          if (dx <= 1 && dy <= 1) {
-	              return true;
-	          } else {
-	              return false;
-	          }
-	      }
-	    }
+		if (dx <= 1 && dy <= 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
