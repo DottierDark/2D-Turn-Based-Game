@@ -11,6 +11,9 @@ import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
 import model.collectibles.Supply;
 import model.collectibles.Vaccine;
+import model.world.CharacterCell;
+import model.world.CollectibleCell;
+import model.world.TrapCell;
 
 public abstract class Hero extends Character{
 	
@@ -56,16 +59,52 @@ public abstract class Hero extends Character{
 		this.specialAction = specialAction;
 	}
 
+	public void moveHelper(int x, int y)  throws MovementException{
+
+		if((x < 0 || x > 14) || (y < 0 || y > 14 )) {
+			throw new MovementException("Out of bounds");
+		}
+
+		if(Game.map[x][y] instanceof CharacterCell) {
+			throw new MovementException("Occupied cell");
+		}
+
+		if(actionsAvailable == 0) {
+			throw new MovementException("No actions available");
+		}
+
+		if(Game.map[x][y] instanceof TrapCell) {
+			setCurrentHp(getCurrentHp() -((TrapCell) Game.map[x][y]).getTrapDamage());
+		}
+
+		if(Game.map[x][y] instanceof CollectibleCell) {
+			((CollectibleCell) Game.map[x][y]).getCollectible().pickUp(null);;
+		}
+
+		Point currentLocation = this.getLocation();
+		Game.map[(int) currentLocation.getX()][(int) currentLocation.getY()] = new CharacterCell(null);
+		Game.map[x][y] = new CharacterCell(this);
+		this.setLocation(new Point(x, y));
+		this.setActionsAvailable(actionsAvailable-1);
+	}
+
 	public void move(Direction d) throws MovementException {
 		String dir = d.toString();
+		Point currentLocation = this.getLocation();
+		int x = (int) currentLocation.getX();
+		int y = (int) currentLocation.getY();
 		switch(dir) {
-			case "UP": this.getLocation().translate(1,0);
+			case "UP": 
+				moveHelper(x+1, y);
 				break;
-			case "DOWN": this.getLocation().translate(-1, 0);
+			case "DOWN": 
+				moveHelper(x-1, y);
 				break;
-			case "LEFT": this.getLocation().translate(0, 1);
+			case "LEFT": 
+				moveHelper(x, y-1);
 				break;
-			case "RIGHT": this.getLocation().translate(0, -1);
+			case "RIGHT": 
+				moveHelper(x, y+1);
 				break;
 		}
 	}
@@ -74,6 +113,10 @@ public abstract class Hero extends Character{
 
 		if(!this.adjacent(this.getTarget())) {
 			throw new InvalidTargetException("Target is not in range");
+		}
+
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
 		}
 
 		if(this instanceof Fighter) {
@@ -117,6 +160,14 @@ public abstract class Hero extends Character{
 			throw new NoAvailableResourcesException("No vaccines available for hero");
 		}
 
+		if(this.getActionsAvailable() == 0) {
+			throw new NotEnoughActionsException("Not enough actions available");
+		}
+
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
 		Random rand = new Random();
 		int heroIndex = rand.nextInt(Game.availableHeroes.size()-1);
 
@@ -124,6 +175,7 @@ public abstract class Hero extends Character{
 		Game.availableHeroes.remove(heroIndex); // Remove hero from availableHeros arraylist
 
 		this.getVaccineInventory().get(0).use(this);
+		this.setActionsAvailable(getActionsAvailable()-1);
 
 		Point location = this.getTarget().getLocation(); // Get location of zombie cured
 
@@ -131,6 +183,7 @@ public abstract class Hero extends Character{
 
 		this.getTarget().onCharacterDeath(); // Kill zombie
 		this.setTarget(null);
+
 
 		Game.availableHeroes.add(newHero); // Spawn hero
 	}
