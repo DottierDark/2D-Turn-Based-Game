@@ -7,4 +7,8 @@ public class Medic extends Hero {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void useSpecial() {
+		this.getTarget().setCurrentHp(this.getMaxHp());
+	}
+
 }

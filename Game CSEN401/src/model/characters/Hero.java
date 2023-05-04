@@ -1,6 +1,8 @@
 package model.characters;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 import engine.Game;
 import exceptions.InvalidTargetException;
@@ -74,6 +76,10 @@ public abstract class Hero extends Character{
 			throw new InvalidTargetException("Target is not in range");
 		}
 
+		if(this instanceof Fighter) {
+			((Fighter) this).attack();
+		}
+		
 		if(this.actionsAvailable == 0) {
 			throw new NotEnoughActionsException("Not enough actions to attack");
 		}
@@ -83,23 +89,49 @@ public abstract class Hero extends Character{
 		
 	}
 
-	public void useSpecial() throws NotEnoughActionsException , NoAvailableResourcesException {
+	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException {
 		this.getSupplyInventory().get(0).use(this);
 		this.setSpecialAction(true);
 		switch(this.getClass().getSimpleName()) {
 		case "Fighter" :
+			((Fighter) this).useSpecial();
 			break;
 		case "Medic":
+			((Medic) this).useSpecial();
 			break;
-		case "Explorer": Game.map[0][0].setVisible(true);
-			break;
-		
+		case "Explorer":
+			((Explorer) this).useSpecial();
+			break;	
 		}
 		
 	}
 
-	public void cure() throws NotEnoughActionsException , NoAvailableResourcesException {
+	public void cure() throws NotEnoughActionsException , NoAvailableResourcesException, InvalidTargetException {
+		
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
+
+		if(this.getVaccineInventory().size() == 0) {
+			throw new NoAvailableResourcesException("No vaccines available for hero");
+		}
+
+		Random rand = new Random();
+		int heroIndex = rand.nextInt(Game.availableHeroes.size()-1);
+
+		Hero newHero = Game.availableHeroes.get(heroIndex); // Get hero from availableHeros arraylist
+		Game.availableHeroes.remove(heroIndex); // Remove hero from availableHeros arraylist
+
 		this.getVaccineInventory().get(0).use(this);
+
+		Point location = this.getTarget().getLocation(); // Get location of zombie cured
+
+		newHero.setLocation(location); // Set location of new hero to cured zombie location
+
+		this.getTarget().onCharacterDeath(); // Kill zombie
+		this.setTarget(null);
+
+		Game.availableHeroes.add(newHero); // Spawn hero
 	}
 	
 }
