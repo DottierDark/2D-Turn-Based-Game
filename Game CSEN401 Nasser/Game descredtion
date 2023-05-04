@@ -1,0 +1,73 @@
+
+Characters:
+
+If the character’s health ever reaches 0 they are killed and removed from the game.
+
+Possible actions that can be done by a character:
+• Move
+• Attack a zombie
+• Cure a zombie
+• Use their class dependant unique action
+
+Heros:
+
+Explorer: Allows the player to be able to see the entirety of the map for 1 turn whenever a supply is used.
+Medic: Can heal and restore health to other heroes or themselves, each process of healing uses 1 supply.
+Fighter: Can attack as many times in a turn without costing action points, for 1 turn whenever a supply is used.
+
+Zombies:
+ can be cured or attacked. 
+Each time a zombie is killed another zombie will spawn somewhere on the map. 
+In addition to extra zombies spawning every time the player ends a turn.
+Whenever a zombie is cured an extra hero will take its place and be available for the player to use in future turns.
+
+
+Collectible:
+
+Each collectible is only usable once, and after that is discarded from the hero’s inventory and cannot be reused
+
+Vaccines:
+
+As the player can only win the game once all vaccines have been collected and used.
+
+Supplys:
+
+enable the carrying hero to use their special action.
+
+Game:
+
+The player starts off in a 15x15 grid map with just one hero and 10 zombies.
+
+The player then keeps taking his turn trying to collect vaccines, and cure or kill zombies
+
+The player can only see the directly adjacent cells next to their pool of heroes
+
+
+Game Over:
+The game ends when the player has collected and used all vaccines or 
+when all heroes have been overwhelmed and defeated by the zombies.
+
+Win condition:
+
+only wins if he has successfully collected and used all vaccines and has 5 or more heroes alive.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
