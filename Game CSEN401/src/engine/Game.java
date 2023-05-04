@@ -9,13 +9,18 @@ import model.characters.Fighter;
 import model.characters.Hero;
 import model.characters.Medic;
 import model.characters.Zombie;
-import model.world.Cell;
+import model.world.*;
+import model.collectibles.*;
+import java.util.Random;
+
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 
 public class Game {
 	
 	public static ArrayList<Hero> availableHeroes;
-	public static ArrayList<Hero> heroes;
-	public static ArrayList<Zombie> zombies;
+	public static ArrayList<Hero> heroes = new ArrayList<Hero>();
+	public static ArrayList<Zombie> zombies = new ArrayList<Zombie>();
 	public static Cell[][] map;
 	
 	public static void loadHeroes(String filePath) throws Exception {
@@ -23,7 +28,6 @@ public class Game {
 		String CSVrow = ""; 
 		String CSVsplitter = ",";  // rows split by ','
 		List<String[]> HeroesData = new ArrayList<>();
-		availableHeroes = new ArrayList<Hero>();
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			//while loop to get data from csv
@@ -63,22 +67,123 @@ public class Game {
 		}
 		
 	}
-	
-	
+
+	public static void setOnMap(Cell character , int x, int y) {
+			if (x < 0 || x > map.length || y < 0 || y > map[x].length) {
+				throw new IllegalArgumentException("Incorrect X or Y parameters");
+			}
+			map[x][y] = character;
+	}
+
 	public static void startGame(Hero h) {
-		// TODO Auto-generated method stub
+		map = new Cell[15][15];
+		for(int i=0; i<15; i++) {
+			for(int j=0; j<15; j++) {
+				map[i][j] = new CharacterCell(null);
+			}
+		}
+		heroes.add(h);
+		availableHeroes.remove(h);
+		setOnMap(new CharacterCell(h),0,0);
+		int x,y;
+		Random rand = new Random();
+
+		spawnZombies(10);
+
+		// Spawn supplies
+		int j = 5; // number of supplies & vaccines & trap cells
+		for(int i = 0 ; i<j;i++) {
+			do {
+				x = rand.nextInt(15);
+				y = rand.nextInt(15);
+				
+			}while(map[x][y] !=null);
+			setOnMap(new CollectibleCell(new Supply()),x,y);
+		}
+
+		// Spawn vaccines
+		for(int i = 0 ; i<j;i++) {
+			do {
+				x = rand.nextInt(15);
+				y = rand.nextInt(15);
+				
+			}while(map[x][y] !=null);
+			setOnMap(new CollectibleCell(new Vaccine()),x,y);
+		}
+
+		// Spawn trap cells
+		for(int i = 0 ; i<j;i++) {
+			do {
+				x = rand.nextInt(15);
+				y = rand.nextInt(15);
+				
+			}while(map[x][y] !=null);
+			setOnMap(new TrapCell(),x,y);
+		}
 	}
 	
+	/**
+	 * Method to check if game is won
+	 * @return yes or no
+	 */
 	public static boolean checkWin() {
-		// TODO Auto-generated method stub
+		if( heroes.size() >=5) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static boolean checkGameOver() {
-		// TODO Auto-generated method stub
+		if(heroes.isEmpty())
+			return true;
+		for(Hero hero: heroes) {
+			if(!hero.getVaccineInventory().isEmpty())
+				return false;
+		}
+				
+		return true;
 	}
 	
 	public static void endTurn() {
-		// TODO Auto-generated method stub
+		
+		zombies.forEach((zombie) -> {
+			for(int i=0; i<heroes.size(); i++) {
+				zombie.setTarget(heroes.get(i));
+				try {
+					zombie.attack();
+					break;
+				} catch (InvalidTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotEnoughActionsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		heroes.forEach((hero)-> {
+			hero.setActionsAvailable(hero.getMaxActions());
+			hero.setSpecialAction(false);
+			hero.setTarget(null);
+		});
+		spawnZombies(1);
 	}
 	
+	public static void spawnZombies(int numberOfZombies) {
+		int x,y;
+		Random rand = new Random();
+		for(int i = 0 ; i<numberOfZombies;i++) {
+			do {
+				x = rand.nextInt(15);
+				y = rand.nextInt(15);
+
+			} while(!(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() == null));
+
+			Zombie z = new Zombie();
+			zombies.add(z);
+			setOnMap(new CharacterCell(z),x,y);
+		}
+		
+	}
 }
