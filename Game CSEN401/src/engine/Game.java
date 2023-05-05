@@ -81,7 +81,6 @@ public class Game {
 		for(int i=0; i<15; i++) {
 			for(int j=0; j<15; j++) {
 				map[i][j].setVisible(false);
-				System.out.println(i + "  " + j);
 			}
 		}
 
@@ -165,10 +164,15 @@ public class Game {
 	 * @return yes or no
 	 */
 	public static boolean checkWin() {
-		if(heroes.size() >=5) {
+		if(checkGameOver() && heroes.size() >=5) {
 			return true;
 		}
-
+		return false;
+	}
+	
+	public static boolean checkGameOver() {
+		if(heroes.isEmpty())
+			return true;
 		int vaccCount = 0;
 		for(int i=0; i<15; i++) {
 			for(int j=0; j<15; j++) {
@@ -177,22 +181,14 @@ public class Game {
 				}
 			}
 		}
-
-		if(vaccCount == 0) {
-			return true;
+		if(vaccCount != 0) {
+			return false;
 		}
 
-		return false;
-	}
-	
-	public static boolean checkGameOver() {
-		if(heroes.isEmpty())
-			return true;
 		for(Hero hero: heroes) {
-			if(!hero.getVaccineInventory().isEmpty())
+			if(hero.getVaccineInventory().isEmpty() == false && vaccCount == 0)
 				return false;
-		}
-				
+		}	
 		return true;
 	}
 	
