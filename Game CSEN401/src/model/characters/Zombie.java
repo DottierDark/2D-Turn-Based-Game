@@ -1,6 +1,7 @@
 package model.characters;
 
 import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 
 public class Zombie extends Character {
 	
@@ -11,18 +12,13 @@ public class Zombie extends Character {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void attack() throws InvalidTargetException {
+	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
-		if(this.getTarget() == null) {
-			throw new InvalidTargetException("No target selected");
-		}
-
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
+		if(this.getTarget() instanceof Zombie) {
+			throw new InvalidTargetException("Target of attack must be a Hero");
 		}
 		
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-	
+		super.attack();
 	}
 
 }

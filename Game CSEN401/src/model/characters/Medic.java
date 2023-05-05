@@ -13,9 +13,20 @@ public class Medic extends Hero {
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
 		
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
+		if(this.getTarget() instanceof Zombie) {
+			throw new InvalidTargetException("Target must be a Hero");
+		}
+
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
+
 		super.useSpecial();
 		this.getTarget().setCurrentHp(this.getMaxHp());
-		
 	}
 
 }

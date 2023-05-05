@@ -16,20 +16,6 @@ public class Fighter extends Hero {
 	}
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
-
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-
-		if(!this.isSpecialAction() && this.getActionsAvailable() == 0) {
-			throw new NotEnoughActionsException("Not enough actions to attack");
-		}
-
-		if(!this.isSpecialAction()) {
-			this.setActionsAvailable(getActionsAvailable()-1);
-		}
-		
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		this.getTarget().defend(getTarget());
+		super.attack();
 	}
 }

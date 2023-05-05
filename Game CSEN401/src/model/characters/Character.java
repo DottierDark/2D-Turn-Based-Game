@@ -3,6 +3,7 @@ import java.awt.Point;
 
 import engine.Game;
 import exceptions.*;
+import model.world.CharacterCell;
 
 public abstract class Character {
 	private String name;
@@ -33,17 +34,16 @@ public abstract class Character {
 	}
 
 	public void setCurrentHp(int currentHp) {
-		if(currentHp < 0) {
+		if(currentHp <= 0) {
 			this.currentHp = 0;
-			onCharacterDeath();
+		    onCharacterDeath();
+		} else {
+			if(currentHp > maxHp) {
+				this.currentHp = maxHp;
+			} else {
+				this.currentHp = currentHp;
+			}
 		}
-		else if(currentHp > maxHp) {
-			this.currentHp = maxHp;
-		}	
-		else {
-			this.currentHp = currentHp;
-		}
-			
 	}
 
 	public Character getTarget() {
@@ -68,6 +68,14 @@ public abstract class Character {
 
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
+		if(this.getTarget() == null) {
+			throw new InvalidTargetException("No target selected");
+		}
+
+		if(!this.adjacent(this.getTarget())) {
+			throw new InvalidTargetException("Target is not in range");
+		}
+
 		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
 		this.getTarget().defend(this);
 	}
@@ -85,7 +93,7 @@ public abstract class Character {
 			Game.availableHeroes.remove(this);
 			int x = this.getLocation().x;
 			int y = this.getLocation().y;
-			Game.map[x][y] = null;
+			Game.map[x][y] = new CharacterCell(null);
 		}
 
 		if(this instanceof Zombie) {
@@ -97,7 +105,7 @@ public abstract class Character {
 	
 
 	public boolean adjacent(Character character) {
-		
+
 		Point location = this.getLocation();
 		Point target = character.getLocation();
 	

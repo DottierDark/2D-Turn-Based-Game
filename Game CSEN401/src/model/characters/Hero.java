@@ -2,7 +2,6 @@ package model.characters;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Random;
 
 import engine.Game;
 import exceptions.InvalidTargetException;
@@ -125,14 +124,6 @@ public abstract class Hero extends Character{
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
 
-		if(this.getTarget() == null) {
-			throw new InvalidTargetException("No target selected");
-		}
-
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-
 		if(!(this.getTarget() instanceof Zombie)) {
 			throw new InvalidTargetException("Target of attack must be a Zombie");
 		}
@@ -141,12 +132,13 @@ public abstract class Hero extends Character{
 			throw new NotEnoughActionsException("Not enough actions to attack");
 		}
 
+		super.attack();
+
 		if(!(this instanceof Fighter && ((Fighter) this).isSpecialAction() == true)) {
 			this.actionsAvailable--;
 		}
 
-		super.attack();
-
+		
 	}
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
@@ -155,8 +147,12 @@ public abstract class Hero extends Character{
 			throw new InvalidTargetException("Target is not in range");
 		}
 
-		if(this.getSupplyInventory().isEmpty()) {
+		if(this.getSupplyInventory().size() == 0) {
 			throw new NoAvailableResourcesException("No supplies available");
+		}
+
+		if(this.actionsAvailable == 0) {
+			throw new NotEnoughActionsException("Not enough actions to use special");
 		}
 
 		this.getSupplyInventory().get(0).use(this);
@@ -185,25 +181,10 @@ public abstract class Hero extends Character{
 			throw new NotEnoughActionsException("Not enough actions available");
 		}
 
-
-
-		Random rand = new Random();
-		int heroIndex = rand.nextInt(Game.availableHeroes.size()-1);
-
-		Hero newHero = Game.availableHeroes.get(heroIndex); // Get hero from availableHeros arraylist
-		Game.availableHeroes.remove(heroIndex); // Remove hero from availableHeros arraylist
+		
 
 		this.getVaccineInventory().get(0).use(this);
 		this.setActionsAvailable(getActionsAvailable()-1);
-
-		Point location = this.getTarget().getLocation(); // Get location of zombie cured
-
-		newHero.setLocation(location); // Set location of new hero to cured zombie location
-
-		Game.zombies.remove(this.getTarget());
-		this.setTarget(null);
-
-		Game.availableHeroes.add(newHero); // Spawn hero
 	}
 	
 }
