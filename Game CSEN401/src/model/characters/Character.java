@@ -66,7 +66,7 @@ public abstract class Character {
 		return attackDmg;
 	}
 
-	public void attack() throws InvalidTargetException, NotEnoughActionsException {
+	public void attack() throws InvalidTargetException, NotEnoughActionsException{
 
 		if(this.getTarget() == null) {
 			throw new InvalidTargetException("No target selected");
@@ -81,19 +81,18 @@ public abstract class Character {
 	}
 
 	public void defend(Character attacker) {
-		setTarget(attacker);
-		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
+		this.setTarget(attacker);
+		attacker.setCurrentHp(attacker.getCurrentHp() - (int)(this.attackDmg/2));
 		
 	}
 
 	public void onCharacterDeath() {
-
+		int x = this.getLocation().x;
+		int y = this.getLocation().y;
+		 ((CharacterCell) Game.map[x][y]).setCharacter(null);
 		if (this instanceof Explorer || this instanceof Medic ||this instanceof Fighter){
 			Game.heroes.remove(this);
 			Game.availableHeroes.remove(this);
-			int x = this.getLocation().x;
-			int y = this.getLocation().y;
-			Game.map[x][y] = new CharacterCell(null);
 		}
 
 		if(this instanceof Zombie) {

@@ -124,7 +124,7 @@ public abstract class Hero extends Character{
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {
 
-		if(!(this.getTarget() instanceof Zombie)) {
+		if(this.getTarget() instanceof Hero) {
 			throw new InvalidTargetException("Target of attack must be a Zombie");
 		}
 
@@ -142,10 +142,6 @@ public abstract class Hero extends Character{
 	}
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
-
-		if(!this.adjacent(this.getTarget())) {
-			throw new InvalidTargetException("Target is not in range");
-		}
 
 		if(this.getSupplyInventory().size() == 0) {
 			throw new NoAvailableResourcesException("No supplies available");

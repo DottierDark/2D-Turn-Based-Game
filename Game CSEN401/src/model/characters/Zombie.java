@@ -12,13 +12,17 @@ public class Zombie extends Character {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void attack() throws InvalidTargetException, NotEnoughActionsException {
+	public void attack() throws InvalidTargetException, NotEnoughActionsException{
 
 		if(this.getTarget() instanceof Zombie) {
 			throw new InvalidTargetException("Target of attack must be a Hero");
 		}
-		
-		super.attack();
+		try {
+			super.attack();
+		}
+		catch(InvalidTargetException| NotEnoughActionsException  e) {
+			new InvalidTargetException("Target of attack must be a adjacent");
+		}
 	}
 
 }
