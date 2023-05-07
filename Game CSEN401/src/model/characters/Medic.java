@@ -21,15 +21,11 @@ public class Medic extends Hero {
 			throw new InvalidTargetException("Target must be a Hero");
 		}
 
-		if(!(this.adjacent(this.getTarget()))){
+		if(!this.adjacent(this.getTarget())) {
 			throw new InvalidTargetException("Target is not in range");
 		}
-try {
-	super.useSpecial();
-}
-	catch(NotEnoughActionsException| NoAvailableResourcesException| InvalidTargetException e){
-		System.out.println(e);
-	}
+
+		super.useSpecial();
 		this.getTarget().setCurrentHp(this.getMaxHp());
 	}
 

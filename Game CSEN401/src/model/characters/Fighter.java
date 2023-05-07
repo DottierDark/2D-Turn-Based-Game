@@ -12,14 +12,7 @@ public class Fighter extends Hero {
 	}
 	
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
-		if(!(this.adjacent(this.getTarget()))) {
-			throw new InvalidTargetException("Target is not in range");
-		}
-		try {
-		super.useSpecial();}
-		catch(NotEnoughActionsException| NoAvailableResourcesException| InvalidTargetException e) {
-			System.out.println(e);
-		}
+		super.useSpecial();
 	}
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {

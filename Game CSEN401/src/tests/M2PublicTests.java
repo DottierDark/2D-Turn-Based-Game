@@ -1885,7 +1885,7 @@ public class M2PublicTests {
 				Method endTurn = gameClass.getMethod("endTurn");
 				endTurn.invoke(gameClass);
 			} catch (Exception e) {
-				fail(e.getCause().getClass() + " occuered while trying to end turn, check the Zombies attack!");
+				fail(e.getCause().getClass() + " ccuered while trying to end turn, check the Zombies attack!");
 			}
 		}
 

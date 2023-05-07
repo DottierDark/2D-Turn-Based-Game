@@ -17,9 +17,6 @@ public class Supply implements Collectible{
 
 	@Override
 	public void use(Hero h) throws NotEnoughActionsException,NoAvailableResourcesException {
-		if(h.getActionsAvailable() == 0) {
-			throw new NotEnoughActionsException("Not enough actions to use vaccine");
-		}
 		h.getSupplyInventory().remove(this);
 	}
 	
