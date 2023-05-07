@@ -51,7 +51,30 @@ Win condition:
 
 only wins if he has successfully collected and used all vaccines and has 5 or more heroes alive.
 
+1. Game.map access with (y, x) or (x, y):
+        testUseMethodLogicInVaccine
+        testZombieAttackDirection
+        testEndTurnCellVisibilityCorner2
+        testEndTurnCellVisibilityCorner3
+        testEndTurnCellVisibilityCorner4
+        testEndTurnCellVisibilityMany2
+        testEndTurnCellVisibilityMany3
 
+2. Wrong final location after movement:
+        testValidMoveRight
+        testValidMoveUp
+        testValidMoveUpdateNewCellDead
+
+3. Wrong initial location before movement:
+        testInvalidBorderMoveRight
+        testInvalidBorderMoveDown
+        testInvalidBorderMoveLeft
+
+4. Wrong assertTrue:
+        testValidMoveUpdateVisibilityDead
+
+6. sometimes right:
+        testStartGameAdjacentCellsVisibility3
 
 
 

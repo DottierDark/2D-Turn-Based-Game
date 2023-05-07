@@ -13,8 +13,12 @@ public class Explorer extends Hero{
 	}
 
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
-		
-		super.useSpecial();
+		try {
+			super.useSpecial();
+		}
+		catch(NotEnoughActionsException| NoAvailableResourcesException| InvalidTargetException e){
+			System.out.println(e);
+		}
 
 		for(int i=0; i<15; i++) {
 			for(int j=0; j<15; j++) {
