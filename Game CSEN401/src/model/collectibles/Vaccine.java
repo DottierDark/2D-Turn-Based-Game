@@ -6,6 +6,7 @@ import java.util.Random;
 import engine.Game;
 import exceptions.NotEnoughActionsException;
 import model.characters.Hero;
+import model.world.CharacterCell;
 
 public class Vaccine implements Collectible {	
 	
@@ -36,9 +37,10 @@ public class Vaccine implements Collectible {
 		newHero.setLocation(location); // Set location of new hero to cured zombie location
 		
 		h.setTarget(null);
-
+		int x = newHero.getLocation().x;
+		int y = newHero.getLocation().y;
 		Game.availableHeroes.add(newHero); // Spawn hero
-
+		Game.map[x][y] = new CharacterCell(newHero);
 		h.getVaccineInventory().remove(this);
 	}
 }

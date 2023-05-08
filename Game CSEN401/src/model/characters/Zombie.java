@@ -16,16 +16,6 @@ public class Zombie extends Character {
 		super("Zombie " + ZOMBIES_COUNT++ , 40, 10); 
 		// TODO Auto-generated constructor stub
 	}
-
-	public void onCharacterDeath() {
-
-		Game.zombies.remove(this);
-		Game.spawnZombies(1);
-		super.onCharacterDeath();
-
-	}
-	
-
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
 
 		ArrayList<Character> adjHeroes = new ArrayList<Character>();

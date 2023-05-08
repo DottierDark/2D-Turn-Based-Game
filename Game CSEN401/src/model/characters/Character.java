@@ -36,7 +36,7 @@ public abstract class Character {
 	public void setCurrentHp(int currentHp) {
 		if(currentHp <= 0) {
 			this.currentHp = 0;
-		    onCharacterDeath();
+		    
 		} else {
 			if(currentHp > maxHp) {
 				this.currentHp = maxHp;
@@ -78,11 +78,15 @@ public abstract class Character {
 
 		this.getTarget().defend(this);
 		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
+		if(this.getTarget().getCurrentHp() == 0)
+			this.getTarget().onCharacterDeath();
 	}
 
 	public void defend(Character attacker) {
 		setTarget(attacker);
 		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
+		if(attacker.getCurrentHp() == 0)
+			attacker.onCharacterDeath();
 	}
 
 	public void onCharacterDeath() {
@@ -90,7 +94,9 @@ public abstract class Character {
 		int x = this.getLocation().x;
 		int y = this.getLocation().y;
 		Game.map[x][y] = new CharacterCell(null);
-
+		if(this instanceof Zombie) {
+			Game.spawnZombies(1);
+		}
 	}
 	
 
