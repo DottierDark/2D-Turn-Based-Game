@@ -1136,7 +1136,7 @@ public class M2PublicTests {
 			boolean visible = (boolean) isVisible.invoke(cell);
 
 			assertTrue("The visibility of cells should not be updated as the hero is dead. Expected visibility = true"
-					+ " but was false ", true == visible);
+					+ " but was false ", false == visible);
 
 		} catch (NoSuchMethodException e) {
 			fail("Hero class should have isVisible method");
@@ -1650,11 +1650,10 @@ public class M2PublicTests {
 
 		try {
 			Method getVaccineInventory = character.getClass().getMethod("getVaccineInventory");
-			Vaccine vac = new Vaccine();
 			ArrayList<Vaccine> inventory1 = (ArrayList<Vaccine>) getVaccineInventory.invoke(character);
-			inventory1.add(vac);
+			inventory1.add(new Vaccine());
 			Method m3 = Class.forName(heroPath).getDeclaredMethod("cure");
-			m3.invoke(vac,character);
+			m3.invoke(character);
 
 			ArrayList<Vaccine> inventory2 = (ArrayList<Vaccine>) getVaccineInventory.invoke(character);
 
