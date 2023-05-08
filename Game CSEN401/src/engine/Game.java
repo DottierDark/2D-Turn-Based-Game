@@ -108,16 +108,16 @@ public class Game {
 				map[i][j] = new CharacterCell(null);
 			}
 		}
-		heroes.add(h);
 		h.setLocation(new Point(0,0));
+		heroes.add(h);
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
 		updateMap();
-		int x,y;
-		Random rand = new Random();
 
 		spawnZombies(10);
 
+		int x,y;
+		Random rand = new Random();
 		// Spawn supplies
 		int j = 5; // number of supplies & vaccines & trap cells
 		for(int i = 0 ; i<j;i++) {
@@ -196,16 +196,10 @@ public class Game {
 	public static void endTurn() {
 		
 		zombies.forEach((zombie) -> {
-			for(int i=0; i<heroes.size(); i++) {
-				zombie.setTarget(heroes.get(i));
-				try {
-					zombie.attack();
-					break;
-				} catch (InvalidTargetException e) {
-					
-				} catch (NotEnoughActionsException e) {
-					
-				}
+			try {
+				zombie.attack();
+			} catch (InvalidTargetException | NotEnoughActionsException e) {
+				e.printStackTrace();
 			}
 		});
 		
@@ -232,12 +226,12 @@ public class Game {
 			return;
 		}
 		Random rand = new Random();
-		for(int i = 0 ; i<numberOfZombies;i++) {
+		for(int i = 0 ; i<numberOfZombies; i++) {
 			do {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
 
-			}	while(
+			} while(
 				(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() != null) 
 				|| (map[x][y] instanceof CollectibleCell) 
 				|| (map[x][y] instanceof TrapCell)

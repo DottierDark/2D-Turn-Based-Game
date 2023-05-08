@@ -141,13 +141,21 @@ public abstract class Hero extends Character{
 		
 	}
 
+	public void onCharacterDeath() {
+
+		Game.heroes.remove(this);
+
+		super.onCharacterDeath();
+
+	}
+
 	public void useSpecial() throws NotEnoughActionsException, NoAvailableResourcesException, InvalidTargetException {
 
 		if(!this.adjacent(this.getTarget())) {
 			throw new InvalidTargetException("Target is not in range");
 		}
 
-		if(this.getSupplyInventory().size() == 0) {
+		if(this.getSupplyInventory().isEmpty()) {
 			throw new NoAvailableResourcesException("No supplies available");
 		}
 

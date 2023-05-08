@@ -26,11 +26,10 @@ public class Vaccine implements Collectible {
 		}
 
 		Random rand = new Random();
-		int heroIndex = rand.nextInt(Game.availableHeroes.size()-1);
+		int heroIndex = rand.nextInt(Game.availableHeroes.size());
 
 		Hero newHero = Game.availableHeroes.get(heroIndex); // Get hero from availableHeros arraylist
 		Game.availableHeroes.remove(newHero); // Remove hero from availableHeros arraylist
-		System.out.println(Game.availableHeroes.size());
 		Game.zombies.remove(h.getTarget());
 		Point location = h.getTarget().getLocation(); // Get location of zombie cured
 

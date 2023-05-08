@@ -76,30 +76,20 @@ public abstract class Character {
 			throw new InvalidTargetException("Target is not in range");
 		}
 
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
 		this.getTarget().defend(this);
+		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
 	}
 
 	public void defend(Character attacker) {
 		setTarget(attacker);
 		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
-		
 	}
 
 	public void onCharacterDeath() {
 
-		if (this instanceof Explorer || this instanceof Medic ||this instanceof Fighter){
-			Game.heroes.remove(this);
-			Game.availableHeroes.remove(this);
-			int x = this.getLocation().x;
-			int y = this.getLocation().y;
-			Game.map[x][y] = new CharacterCell(null);
-		}
-
-		if(this instanceof Zombie) {
-			Game.zombies.remove(this);
-			Game.spawnZombies(1);
-		}
+		int x = this.getLocation().x;
+		int y = this.getLocation().y;
+		Game.map[x][y] = new CharacterCell(null);
 
 	}
 	
