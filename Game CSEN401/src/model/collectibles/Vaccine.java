@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.Random;
 
 import engine.Game;
+import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
 import model.characters.Hero;
 import model.world.CharacterCell;
@@ -17,15 +18,20 @@ public class Vaccine implements Collectible {
 	@Override
 	public void pickUp(Hero h) {
 		h.getVaccineInventory().add(this);
+		
 	}
 
 	@Override
-	public void use(Hero h) throws NotEnoughActionsException {
+	public void use(Hero h) throws NotEnoughActionsException,NoAvailableResourcesException {
 
 		if(h.getActionsAvailable() == 0) {
 			throw new NotEnoughActionsException("Not enough actions to use vaccine");
 		}
-
+		
+		if(h.getVaccineInventory().isEmpty()) {
+			throw new NoAvailableResourcesException();
+		}
+		
 		Random rand = new Random();
 		int heroIndex = rand.nextInt(Game.availableHeroes.size());
 
@@ -36,11 +42,11 @@ public class Vaccine implements Collectible {
 
 		newHero.setLocation(location); // Set location of new hero to cured zombie location
 		
-		h.setTarget(null);
 		int x = newHero.getLocation().x;
 		int y = newHero.getLocation().y;
-		Game.availableHeroes.add(newHero); // Spawn hero
+		Game.heroes.add(newHero); // Spawn hero
 		Game.map[x][y] = new CharacterCell(newHero);
 		h.getVaccineInventory().remove(this);
+		h.setActionsAvailable(h.getActionsAvailable()-1);
 	}
 }

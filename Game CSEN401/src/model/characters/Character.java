@@ -13,14 +13,29 @@ public abstract class Character {
 	private int attackDmg;
 	private Character target;
 	
+	public Character() {
+	}
+	
+
 	public Character(String name, int maxHp, int attackDmg) {
-		this.name = name;
-	    this.maxHp = maxHp;
-	    this.currentHp = maxHp;
+		this.name=name;
+		this.maxHp = maxHp;
+		this.currentHp = maxHp;
 		this.attackDmg = attackDmg;
 	}
+		
+	public Character getTarget() {
+		return target;
+	}
 
+	public void setTarget(Character target) {
+		this.target = target;
+	}
 	
+	public String getName() {
+		return name;
+	}
+
 	public Point getLocation() {
 		return location;
 	}
@@ -29,37 +44,21 @@ public abstract class Character {
 		this.location = location;
 	}
 
+	public int getMaxHp() {
+		return maxHp;
+	}
+
 	public int getCurrentHp() {
 		return currentHp;
 	}
 
 	public void setCurrentHp(int currentHp) {
-		if(currentHp <= 0) {
+		if(currentHp < 0) 
 			this.currentHp = 0;
-		    
-		} else {
-			if(currentHp > maxHp) {
-				this.currentHp = maxHp;
-			} else {
-				this.currentHp = currentHp;
-			}
-		}
-	}
-
-	public Character getTarget() {
-		return target;
-	}
-
-	public void setTarget(Character target) {
-		this.target = target;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getMaxHp() {
-		return maxHp;
+		else if(currentHp > maxHp) 
+			this.currentHp = maxHp;
+		else 
+			this.currentHp = currentHp;
 	}
 
 	public int getAttackDmg() {
@@ -72,30 +71,39 @@ public abstract class Character {
 			throw new InvalidTargetException("No target selected");
 		}
 
-		if(!this.adjacent(this.getTarget())) {
+		if(!(this.adjacent(this.getTarget()))) {
 			throw new InvalidTargetException("Target is not in range");
 		}
-
+		
+		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp() - this.getAttackDmg());
 		this.getTarget().defend(this);
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-this.getAttackDmg());
-		if(this.getTarget().getCurrentHp() == 0)
+		if(this.getTarget().getCurrentHp() == 0) {
 			this.getTarget().onCharacterDeath();
+			}
+	
 	}
 
-	public void defend(Character attacker) {
-		setTarget(attacker);
-		attacker.setCurrentHp(attacker.getCurrentHp() - this.attackDmg/2);
-		if(attacker.getCurrentHp() == 0)
+	public void defend(Character attacker) throws InvalidTargetException {
+		attacker.setCurrentHp(attacker.getCurrentHp() - (int) (this.getAttackDmg()/2));
+		if(attacker.getCurrentHp() == 0) {
 			attacker.onCharacterDeath();
+		}
 	}
 
 	public void onCharacterDeath() {
 
 		int x = this.getLocation().x;
 		int y = this.getLocation().y;
+		
 		Game.map[x][y] = new CharacterCell(null);
+		
+		if(this instanceof Hero) {
+			Game.heroes.remove(this);
+		}
+		
 		if(this instanceof Zombie) {
 			Game.spawnZombies(1);
+			Game.zombies.remove(this);
 		}
 	}
 	

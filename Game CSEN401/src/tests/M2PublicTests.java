@@ -1884,7 +1884,7 @@ public class M2PublicTests {
 				Method endTurn = gameClass.getMethod("endTurn");
 				endTurn.invoke(gameClass);
 			} catch (Exception e) {
-				fail(e.getCause().getClass() + " ccuered while trying to end turn, check the Zombies attack!");
+				fail(e.getCause().getClass() + " occuered while trying to end turn, check the Zombies attack!");
 			}
 		}
 
@@ -2248,6 +2248,7 @@ public class M2PublicTests {
 		attackMethod.invoke(character1);
 
 		boolean isDead = ((CharacterCell) tmpMap[1][1]).getCharacter() == null;
+		
 		isDead = isDead && !((ArrayList<Zombie>) zombieField.get(gameClass)).contains(character2);
 		assertEquals("The Zombie is considered dead if it nolonger exists on the map and in the Zombies array ", isDead,
 				true);
@@ -4147,7 +4148,7 @@ public class M2PublicTests {
 		int count = 0;
 		fd = Class.forName(cellPath).getDeclaredField("isVisible");
 		fd.setAccessible(true);
-
+		
 		assertTrue("Hero's adjacent cells should be visible when starting the game", (boolean) fd.get(map[1][1]));
 
 	}

@@ -90,10 +90,10 @@ public class Game {
 
 			int x = (int) hero.getLocation().getX();
 			int y = (int) hero.getLocation().getY();
-
+			map[x][y].setVisible(true);
 			for(int j=x-1; j<x+2; j++) {
 				for(int k=y-1; k<y+2; k++) {
-					if(j >= 0 && j <= 14 && k >= 0 && k <= 14) {
+					if(j >= 0 && j < 15 && k >= 0 && k < 15) {
 						map[j][k].setVisible(true);
 					}
 				}
@@ -112,8 +112,10 @@ public class Game {
 		heroes.add(h);
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
-		updateMap();
-
+		map[0][0].setVisible(true);
+		map[0][1].setVisible(true);
+		map[1][0].setVisible(true);
+		map[1][1].setVisible(true);
 		spawnZombies(10);
 
 		int x,y;
@@ -158,6 +160,7 @@ public class Game {
 				);
 			setOnMap(new TrapCell(),x,y);
 		}
+		updateMap();
 	}
 	
 	/**
@@ -196,11 +199,11 @@ public class Game {
 	public static void endTurn() {
 		
 		zombies.forEach((zombie) -> {
-			try {
-				zombie.attack();
-			} catch (InvalidTargetException | NotEnoughActionsException e) {
-				e.printStackTrace();
-			}
+				try {
+					zombie.attack();
+				} catch (InvalidTargetException | NotEnoughActionsException e) {
+					e.printStackTrace();
+				}
 		});
 		
 		heroes.forEach((hero)-> {
