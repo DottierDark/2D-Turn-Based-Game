@@ -71,27 +71,26 @@ public abstract class Character {
 			throw new InvalidTargetException("No target selected");
 		}
 
-		if((this.adjacent(this.getTarget()))) {
-			this.getTarget().setCurrentHp(this.getTarget().getCurrentHp() - this.getAttackDmg());
-			
-			this.getTarget().defend(this);
-			
-			if(this.getTarget().getCurrentHp() == 0) {
-				this.getTarget().onCharacterDeath();
-				}
-		}
-		else {
+		if(!(this.adjacent(this.getTarget()))) {
 			throw new InvalidTargetException("Target is not in range");
+				}
+		this.getTarget().defend(this);
+		
+		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp() - this.getAttackDmg());
+		
+		
+		
+		if(this.getTarget().getCurrentHp() == 0) {
+			this.getTarget().onCharacterDeath();
 		}
-		
-		
 	
 	}
 
 	public void defend(Character attacker) throws InvalidTargetException {
-		int CurrHP = attacker.getCurrentHp();
+		int currHP = attacker.getCurrentHp();
 		int attack = (int)(this.getAttackDmg()/2);
-		attacker.setCurrentHp(CurrHP - attack);
+		int newHP = currHP - attack;
+		attacker.setCurrentHp(newHP);
 		if(attacker.getCurrentHp() == 0) {
 			attacker.onCharacterDeath();
 		}

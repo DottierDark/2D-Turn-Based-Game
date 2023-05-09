@@ -111,7 +111,7 @@ public class Game {
 		heroes.add(h);
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
-	updateMap();
+		updateMap();
 		spawnZombies(10);
 
 		int x,y;
@@ -194,20 +194,20 @@ public class Game {
 	
 	public static void endTurn() {
 		
-		zombies.forEach((zombie) -> {
-				try {
-					zombie.attack();
-				} catch (InvalidTargetException | NotEnoughActionsException e) {
-					e.printStackTrace();
-				}
-		});
+	
 		
 		heroes.forEach((hero)-> {
 			hero.setActionsAvailable(hero.getMaxActions());
 			hero.setSpecialAction(false);
 			hero.setTarget(null);
 		});
-
+		zombies.forEach((zombie) -> {
+			try {
+				zombie.attack();
+			} catch (InvalidTargetException | NotEnoughActionsException e) {
+				e.printStackTrace();
+			}
+	});
 		zombies.forEach((zombie)-> {
 			zombie.setTarget(null);
 		});

@@ -2331,7 +2331,7 @@ public class M2PublicTests {
 		Class<?> characterClass = Class.forName(characterPath);
 		Constructor<?> constructorFighter = fighterClass.getConstructor(String.class, int.class, int.class, int.class);
 		Object character2 = constructorFighter.newInstance("Bob", maxHp, attackDamage, maxActions);
-
+		System.out.println(((Character) character2).getCurrentHp());
 		Method setLocation = characterClass.getMethod("setLocation", Point.class);
 		setLocation.invoke(character1, location1);
 		setLocation.invoke(character2, location2);
@@ -2362,6 +2362,7 @@ public class M2PublicTests {
 		int expectedHp = 40 - (attackDamage / 2);
 		int actualHp = (int) getCurrentHpMethod.invoke(character1);
 		System.out.println(((Character) character1).getCurrentHp());
+		System.out.println(((Character) character2).getCurrentHp());
 		assertEquals(expectedHp, actualHp);
 	}
 

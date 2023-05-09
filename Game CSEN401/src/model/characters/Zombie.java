@@ -16,16 +16,11 @@ public class Zombie extends Character {
 		for(int i = 0 ; i< Game.heroes.size(); i++) {
 			Hero h = Game.heroes.get(i);
 			if(adjacent(h)) {
-				setTarget(h);
+				this.setTarget(h);
 				super.attack();;
 				break;
 			}
 		}		
-		
-		if(this.getTarget() == null) {
-			return;
-		}
-		
 	}
 	
 }
