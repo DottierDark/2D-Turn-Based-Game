@@ -166,5 +166,6 @@ public abstract class Hero extends Character{
 
 		this.getVaccineInventory().get(0).use(this);
 	}
+
 	
 }

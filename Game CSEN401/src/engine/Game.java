@@ -102,7 +102,6 @@ public class Game {
 	}
 
 	public static void startGame(Hero h) {
-		map = new Cell[15][15];
 		for(int i=0; i<15; i++) {
 			for(int j=0; j<15; j++) {
 				map[i][j] = new CharacterCell(null);
@@ -112,10 +111,7 @@ public class Game {
 		heroes.add(h);
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
-		map[0][0].setVisible(true);
-		map[0][1].setVisible(true);
-		map[1][0].setVisible(true);
-		map[1][1].setVisible(true);
+	updateMap();
 		spawnZombies(10);
 
 		int x,y;

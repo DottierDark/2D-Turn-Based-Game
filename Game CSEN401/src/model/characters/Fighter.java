@@ -12,16 +12,7 @@ public class Fighter extends Hero {
 	}
 	
 	public void useSpecial() throws  NoAvailableResourcesException, InvalidTargetException {
-		try {
 			super.useSpecial();
-	}
-
-	catch( NoAvailableResourcesException e) {
-		throw new NoAvailableResourcesException();
-	}
-	catch(InvalidTargetException e) {
-		throw new InvalidTargetException();
-	}
 	}
 
 	public void attack() throws InvalidTargetException,  NotEnoughActionsException {

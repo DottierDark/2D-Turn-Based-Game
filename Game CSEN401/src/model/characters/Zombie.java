@@ -12,17 +12,20 @@ public class Zombie extends Character {
 		ZOMBIES_COUNT++;
 	}
 	public void attack() throws InvalidTargetException, NotEnoughActionsException {
-		
-		for(Hero h : Game.heroes) {
-			if(this.adjacent(h)) {
-				this.setTarget(h);
+
+		for(int i = 0 ; i< Game.heroes.size(); i++) {
+			Hero h = Game.heroes.get(i);
+			if(adjacent(h)) {
+				setTarget(h);
+				super.attack();;
 				break;
 			}
-		}
+		}		
+		
 		if(this.getTarget() == null) {
 			return;
 		}
-		super.attack();
+		
 	}
-
+	
 }

@@ -65,26 +65,33 @@ public abstract class Character {
 		return attackDmg;
 	}
 
-	public void attack() throws InvalidTargetException, NotEnoughActionsException {
+	public void  attack() throws InvalidTargetException, NotEnoughActionsException {
 
 		if(this.getTarget() == null) {
 			throw new InvalidTargetException("No target selected");
 		}
 
-		if(!(this.adjacent(this.getTarget()))) {
+		if((this.adjacent(this.getTarget()))) {
+			this.getTarget().setCurrentHp(this.getTarget().getCurrentHp() - this.getAttackDmg());
+			
+			this.getTarget().defend(this);
+			
+			if(this.getTarget().getCurrentHp() == 0) {
+				this.getTarget().onCharacterDeath();
+				}
+		}
+		else {
 			throw new InvalidTargetException("Target is not in range");
 		}
 		
-		this.getTarget().setCurrentHp(this.getTarget().getCurrentHp() - this.getAttackDmg());
-		this.getTarget().defend(this);
-		if(this.getTarget().getCurrentHp() == 0) {
-			this.getTarget().onCharacterDeath();
-			}
+		
 	
 	}
 
 	public void defend(Character attacker) throws InvalidTargetException {
-		attacker.setCurrentHp(attacker.getCurrentHp() - (int) (this.getAttackDmg()/2));
+		int CurrHP = attacker.getCurrentHp();
+		int attack = (int)(this.getAttackDmg()/2);
+		attacker.setCurrentHp(CurrHP - attack);
 		if(attacker.getCurrentHp() == 0) {
 			attacker.onCharacterDeath();
 		}
@@ -95,16 +102,16 @@ public abstract class Character {
 		int x = this.getLocation().x;
 		int y = this.getLocation().y;
 		
-		Game.map[x][y] = new CharacterCell(null);
-		
-		if(this instanceof Hero) {
+		((CharacterCell) Game.map[x][y]).setCharacter(null);
+		if(this instanceof Fighter||this instanceof Explorer|| this instanceof Medic) {
 			Game.heroes.remove(this);
+			return;
 		}
-		
 		if(this instanceof Zombie) {
 			Game.spawnZombies(1);
 			Game.zombies.remove(this);
 		}
+
 	}
 	
 
@@ -118,4 +125,6 @@ public abstract class Character {
 	
 		return dx <= 1 && dy <= 1;
 	}
+	
+	
 }

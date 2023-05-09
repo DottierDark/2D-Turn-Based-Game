@@ -2249,10 +2249,13 @@ public class M2PublicTests {
 
 		boolean isDead = ((CharacterCell) tmpMap[1][1]).getCharacter() == null;
 		
-		isDead = isDead && !((ArrayList<Zombie>) zombieField.get(gameClass)).contains(character2);
-		assertEquals("The Zombie is considered dead if it nolonger exists on the map and in the Zombies array ", isDead,
-				true);
-	}
+		boolean isDead2 = !((ArrayList<Zombie>) zombieField.get(gameClass)).contains(character2);
+		assertEquals("The Zombie is considered dead if it no longer exists on the map and  ", isDead,
+				true); 
+		assertEquals("The Zombie is considered dead if it no longer exists on the map and  ", isDead2,
+				true); }
+	
+	
 
 	@Test(timeout = 1000)
 	public void testFighterAttackZombieUsesActionPoints() throws ClassNotFoundException, NoSuchMethodException,
@@ -2358,6 +2361,7 @@ public class M2PublicTests {
 		Method getCurrentHpMethod = characterClass.getMethod("getCurrentHp");
 		int expectedHp = 40 - (attackDamage / 2);
 		int actualHp = (int) getCurrentHpMethod.invoke(character1);
+		System.out.println(((Character) character1).getCurrentHp());
 		assertEquals(expectedHp, actualHp);
 	}
 
