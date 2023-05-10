@@ -1884,7 +1884,7 @@ public class M2PublicTests {
 				Method endTurn = gameClass.getMethod("endTurn");
 				endTurn.invoke(gameClass);
 			} catch (Exception e) {
-				fail(e.getCause().getClass() + " occuered while trying to end turn, check the Zombies attack!");
+				fail(e.getCause().getClass() + " ccuered while trying to end turn, check the Zombies attack!");
 			}
 		}
 
@@ -2248,14 +2248,10 @@ public class M2PublicTests {
 		attackMethod.invoke(character1);
 
 		boolean isDead = ((CharacterCell) tmpMap[1][1]).getCharacter() == null;
-		
-		boolean isDead2 = !((ArrayList<Zombie>) zombieField.get(gameClass)).contains(character2);
-		assertEquals("The Zombie is considered dead if it no longer exists on the map and  ", isDead,
-				true); 
-		assertEquals("The Zombie is considered dead if it no longer exists on the map and  ", isDead2,
-				true); }
-	
-	
+		isDead = isDead && !((ArrayList<Zombie>) zombieField.get(gameClass)).contains(character2);
+		assertEquals("The Zombie is considered dead if it nolonger exists on the map and in the Zombies array ", isDead,
+				true);
+	}
 
 	@Test(timeout = 1000)
 	public void testFighterAttackZombieUsesActionPoints() throws ClassNotFoundException, NoSuchMethodException,
@@ -2331,7 +2327,7 @@ public class M2PublicTests {
 		Class<?> characterClass = Class.forName(characterPath);
 		Constructor<?> constructorFighter = fighterClass.getConstructor(String.class, int.class, int.class, int.class);
 		Object character2 = constructorFighter.newInstance("Bob", maxHp, attackDamage, maxActions);
-		System.out.println(((Character) character2).getCurrentHp());
+
 		Method setLocation = characterClass.getMethod("setLocation", Point.class);
 		setLocation.invoke(character1, location1);
 		setLocation.invoke(character2, location2);
@@ -2361,8 +2357,6 @@ public class M2PublicTests {
 		Method getCurrentHpMethod = characterClass.getMethod("getCurrentHp");
 		int expectedHp = 40 - (attackDamage / 2);
 		int actualHp = (int) getCurrentHpMethod.invoke(character1);
-		System.out.println(((Character) character1).getCurrentHp());
-		System.out.println(((Character) character2).getCurrentHp());
 		assertEquals(expectedHp, actualHp);
 	}
 
@@ -4153,7 +4147,7 @@ public class M2PublicTests {
 		int count = 0;
 		fd = Class.forName(cellPath).getDeclaredField("isVisible");
 		fd.setAccessible(true);
-		
+
 		assertTrue("Hero's adjacent cells should be visible when starting the game", (boolean) fd.get(map[1][1]));
 
 	}
