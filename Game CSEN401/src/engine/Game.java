@@ -24,6 +24,9 @@ public class Game {
 	public static ArrayList<Zombie> zombies = new ArrayList<Zombie>();
 	public static Cell[][] map = new Cell[15][15];
 	
+	/**
+	 * Loads heros from csv file
+	 */
 	public static void loadHeroes(String filePath) throws Exception {
 		// SAW IN STACKOVEFLOW CODE IN IMPORTING CSV FILES.
 		String CSVrow = ""; 
@@ -34,8 +37,8 @@ public class Game {
 			//while loop to get data from csv
 			while((CSVrow = br.readLine()) != null) {
 				String[] row = CSVrow.split(CSVsplitter); // split rows into string values
-				HeroesData.add(row);				
-			}//end of while loop
+			 	HeroesData.add(row);				
+			} //end of while loop
 			//for loop to initialize heroes from data
 			for(int i=0; i<HeroesData.size(); i++) {
 				String heroName;
@@ -54,12 +57,12 @@ public class Game {
 				maxActionsOfHero = Integer.parseInt(heroData[3]);
 				attackDmgOfHero = Integer.parseInt(heroData[4]);
 				switch(heroType) {
-				case("FIGH"): // Fighter case
-					availableHeroes.add(new Fighter(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
-				case("MED"): // Medic case
-					availableHeroes.add(new Medic(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
-				case("EXP"): // Explorer cases
-					availableHeroes.add(new Explorer(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
+					case("FIGH"): // Fighter case
+						availableHeroes.add(new Fighter(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
+					case("MED"): // Medic case
+						availableHeroes.add(new Medic(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
+					case("EXP"): // Explorer cases
+						availableHeroes.add(new Explorer(heroName, maxHpOfHero, attackDmgOfHero, maxActionsOfHero)); break;
 				}
 			}
 			//in case the csv file was not found or corrupted
@@ -76,7 +79,9 @@ public class Game {
 		map[x][y] = cell;
 	}
 
-
+	/**
+	 * Updates visibilty of all cells in map
+	 */
 	public static void updateMap() {
 
 		for(int i=0; i<15; i++) {
@@ -85,12 +90,12 @@ public class Game {
 			}
 		}
 
-		
+
 		heroes.forEach((hero)-> {
 
 			int x = (int) hero.getLocation().getX();
 			int y = (int) hero.getLocation().getY();
-			map[x][y].setVisible(true);
+			
 			for(int j=x-1; j<x+2; j++) {
 				for(int k=y-1; k<y+2; k++) {
 					if(j >= 0 && j < 15 && k >= 0 && k < 15) {
@@ -101,17 +106,22 @@ public class Game {
 		});
 	}
 
+	/**
+	 * Method to start the game
+	 * @param h Hero to spawn at start of game
+	 */
 	public static void startGame(Hero h) {
 		for(int i=0; i<15; i++) {
 			for(int j=0; j<15; j++) {
 				map[i][j] = new CharacterCell(null);
 			}
 		}
+		
 		h.setLocation(new Point(0,0));
 		heroes.add(h);
 		availableHeroes.remove(h);
 		setOnMap(new CharacterCell(h),0,0);
-		updateMap();
+		
 		spawnZombies(10);
 
 		int x,y;
@@ -122,10 +132,7 @@ public class Game {
 			do {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
-			} while(
-				(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() != null) 
-				|| (map[x][y] instanceof CollectibleCell)
-				);
+			} while(!(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() == null));
 			setOnMap(new CollectibleCell(new Supply()),x,y);
 		}
 
@@ -135,10 +142,7 @@ public class Game {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
 				
-			}  while(
-				(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() != null) 
-				|| (map[x][y] instanceof CollectibleCell)
-				);
+			} while(!(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() == null));
 			
 			setOnMap(new CollectibleCell(new Vaccine()),x,y);
 		}
@@ -149,13 +153,10 @@ public class Game {
 				x = rand.nextInt(15);
 				y = rand.nextInt(15);
 				
-			}  while(
-				(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() != null) 
-				|| (map[x][y] instanceof CollectibleCell) 
-				|| (map[x][y] instanceof TrapCell)
-				);
+			} while(!(map[x][y] instanceof CharacterCell && ((CharacterCell) map[x][y]).getCharacter() == null));
 			setOnMap(new TrapCell(),x,y);
 		}
+		
 		updateMap();
 	}
 	
@@ -192,33 +193,38 @@ public class Game {
 		return true;
 	}
 	
+	/**
+	 * Ends turn of game, making zombies attack, spawning a zombie, and reseting stats
+	 */
 	public static void endTurn() {
-		
-	
 		
 		heroes.forEach((hero)-> {
 			hero.setActionsAvailable(hero.getMaxActions());
 			hero.setSpecialAction(false);
 			hero.setTarget(null);
 		});
+
 		zombies.forEach((zombie) -> {
 			try {
 				zombie.attack();
 			} catch (InvalidTargetException | NotEnoughActionsException e) {
 				e.printStackTrace();
 			}
-	});
+		});
+
 		zombies.forEach((zombie)-> {
 			zombie.setTarget(null);
 		});
-
 		
 		spawnZombies(1);
 
 		updateMap();
-		
 	}
 	
+	/**
+	 * spawns given number of zombies if doesnt exceed 10 on map
+	 * @param numberOfZombies number of zombies to spawn
+	 */
 	public static void spawnZombies(int numberOfZombies) {
 		int x,y;
 		if(zombies.size() == 10) {
