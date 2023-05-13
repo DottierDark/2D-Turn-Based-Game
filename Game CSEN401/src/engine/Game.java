@@ -90,7 +90,6 @@ public class Game {
 			}
 		}
 
-
 		heroes.forEach((hero)-> {
 
 			int x = (int) hero.getLocation().getX();
