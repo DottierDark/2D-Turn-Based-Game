@@ -54,6 +54,62 @@ only wins if he has successfully collected and used all vaccines and has 5 or mo
 
 
 
+**When starting the game**
+
+* All available heroes should be displayed in a list.
+* Each hero should have their name, type, and attributes displayed.
+* The player should be able to select their starting hero.
+
+**During the game**
+
+* The full board should be displayed.
+* The board should be updated based on the gameplay.
+* There should be a clear distinction between cells that are empty, that contain heroes, that contain zombies, that contain vaccines, and that contain supplies.
+* Cells that contain traps should be shown as empty cells.
+* Cells that are not visible should not have their contents shown.
+* The player should be able to select a hero to take actions with.
+
+**For the hero selected to take an action**
+
+* The hero's name, type, current HP, attack damage, and actions points should be displayed.
+* The amount of supplies the hero is carrying should be displayed.
+* The amount of vaccines the hero is carrying should be displayed.
+* The player should be able to choose to move the hero.
+* The player should be able to choose to attack with the hero.
+* The player should be able to use the hero's special ability.
+* The player should be able to cure zombies with the hero.
+* If the hero enters a trap cell during movement, the player should be informed.
+* The player should be able to choose to end the hero's turn.
+
+**For each remaining hero**
+
+* The hero's name, current HP, attack damage, and max actions per turn should be displayed.
+* The hero's type (explorer, fighter, medic) should be displayed.
+
+**For any invalid action**
+
+* A message should be displayed to the player indicating that the action is invalid.
+* The game should not be stopped or terminated for any invalid action.
+
+**When the player loses**
+
+* A message should be displayed to the player indicating that they have lost.
+* The player should not be able to take any further actions.
+
+**When the player wins**
+
+* A message should be displayed to the player indicating that they have won.
+* The player should not be able to take any further actions.
+
+**Bonus**
+
+* Fantastic GUI: The UI should be visually appealing and easy to use.
+* AI as Player: The game should be able to be played against an AI opponent.
+* Network (2 player mode): The game should be able to be played in a 2 player mode over a network.
+
+I hope this helps!
+
+
 
 
 

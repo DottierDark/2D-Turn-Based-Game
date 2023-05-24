@@ -1,13 +1,13 @@
 package model.world;
 
 public abstract class Cell {
-	
+
 	private boolean isVisible;
-	
+
 	public Cell() {
 		isVisible = false;
 	}
-	
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -16,7 +16,4 @@ public abstract class Cell {
 		this.isVisible = isVisible;
 	}
 
-
-	
-	
 }

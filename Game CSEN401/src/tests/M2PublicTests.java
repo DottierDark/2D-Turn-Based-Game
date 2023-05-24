@@ -2400,7 +2400,6 @@ public class M2PublicTests {
 			fail(e.getCause().getClass() + " occurred while trying to get Map variable from the Game Class");
 		}
 
-
 		Method attackMethod = fighterClass.getMethod("attack");
 		Method setSpecialActionMethod = fighterClass.getMethod("setSpecialAction", boolean.class);
 
@@ -3839,7 +3838,6 @@ public class M2PublicTests {
 		assertTrue("The zombies should be added to the zombie ArrayList", actualZombies.size() == 10);
 	}
 
-
 	@Test(timeout = 100000)
 	public void testStartGameVaccinesRandomlyPlaced() throws Exception {
 		resetGameStatics();
@@ -4065,7 +4063,6 @@ public class M2PublicTests {
 		heros = (ArrayList<Object>) fd.get(null);
 		assertTrue("Starting Hero should  be removed from the availableHeroes list", !heros.contains(fighter));
 	}
-
 
 	@Test(timeout = 10000)
 	public void testStartGameEmptyCells() throws Exception {
