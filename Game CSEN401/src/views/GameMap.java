@@ -16,7 +16,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import model.characters.Fighter;
 import model.characters.Hero;
 import model.characters.Zombie;
 
@@ -24,6 +23,8 @@ public class GameMap {
 
 	private Scene GameMapScene;
 	public String CSS = this.getClass().getResource("game map.css").toExternalForm();
+	public Hero selectedHero;
+	
 
 	public Scene getGameMapScene() {
 		return GameMapScene;
@@ -34,31 +35,49 @@ public class GameMap {
 	}
 
 	public GameMap() {
-
+		
 		GridPane mapbox = new GridPane();
 		BorderPane main = new BorderPane();
 		GridPane buttons = new GridPane();
 		GridPane movement = new GridPane();
-		Button up = new Button("up");
-		Button down = new Button("down");
-		Button left = new Button("left");
-		Button right = new Button("right");
+		Button up = new Button("Up");
+		Button down = new Button("Down");
+		Button left = new Button("Left");
+		Button right = new Button("Right");
 		Button attack = new Button("Attack");
 		Button endTurn = new Button("End Turn");
+		Button cure = new Button("Cure");
+		Button useSpecial = new Button("Use Special");
 		Button exitButton = new Button("Exit");
+		
+		Main.window.widthProperty().addListener((observable, oldWidth, newWidth)->{
+			main.setPrefWidth(newWidth.doubleValue());
+			
+		});
+		Main.window.heightProperty().addListener((observable, oldHeight, newHeight)->{
+			main.setPrefHeight(newHeight.doubleValue());
+		});
 
 		mapbox.setGridLinesVisible(true);
-
+		Pane pane;
+		Button SelectButton = new Button();
 		for (int y = 0; y < 15; y++) {
 			for (int x = 0; x < 15; x++) {
-				Pane pane = new Pane();
+				pane = new Pane();
 				pane.setPrefSize(50, 50);
-				Image image = new Image("Grass.jpg");
-				ImageView imageView = new ImageView(image);
-				mapbox.add(imageView, x, y);
+				SelectButton = new Button("");
+				SelectButton.setOnAction(e -> {
+					//selectedHero = Hero ;
+				});
+				
+				/*Image image = new Image("Grass.jpg");
+				BackgroundImage imageView = new BackgroundImage(image);
+				pane.setBackground(imageView);
+				mapbox.add(imageView, x, y);*/
 
 			}
 		}
+	
 		Random rand = new Random();
 
 		for (int i = 0; i < 30; i++) {
@@ -100,7 +119,9 @@ public class GameMap {
 
 		buttons.add(attack, 0, 1);
 		buttons.add(endTurn, 0, 2);
-		buttons.add(exitButton, 0, 3);
+		buttons.add(cure, 0, 3);
+		buttons.add(useSpecial, 0, 4);
+		buttons.add(exitButton, 0, 5);
 
 		main.setRight(buttons);
 		main.setLeft(movement);
@@ -109,6 +130,14 @@ public class GameMap {
 
 		mapbox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 		main.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		try {
+		SelectButton.setOnAction(e ->{
+			
+		});
+		}
+		catch(Exception e) {
+			System.out.println("ay habal");
+		}
 
 		GameMapScene = new Scene(main);
 

@@ -18,6 +18,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -42,7 +43,8 @@ public class HeroPick {
 	private final String csvFilepath = "C:\\Users\\youus\\eclipse-workspace\\git repository\\CSEN401-Game\\Game CSEN401\\src\\Heros.csv";
 
 	public HeroPick() {
-
+		
+	
 		BorderPane borderPane = new BorderPane();
 		BorderPane controls = new BorderPane();
 		BorderPane vBox = new BorderPane();
@@ -53,6 +55,14 @@ public class HeroPick {
 		Button startButton = new Button("Start");
 		Button backButton = new Button("Back");
 		Button exitButton = new Button("Exit");
+		
+		Main.window.widthProperty().addListener((observable, oldWidth, newWidth)->{
+			root.setPrefWidth(newWidth.doubleValue());
+			
+		});
+		Main.window.heightProperty().addListener((observable, oldHeight, newHeight)->{
+			root.setPrefHeight(newHeight.doubleValue());
+		});
 
 		try {
 			Game.loadHeroes(csvFilepath);
@@ -219,19 +229,26 @@ public class HeroPick {
 				Game(startingHero);
 			} catch (NullPointerException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Dialog");
+				alert.setTitle("Hero Select");
 				alert.setHeaderText("Look, an Error Dialog");
-				alert.setContentText("Ooops, there was an error!");
+				alert.setContentText("Please select a hero");
 
 				alert.showAndWait();
+				
 			}
 			Main.gameMap = new GameMap();
 			Main.window.setScene(Main.gameMap.getGameMapScene());
+			Main.window.setFullScreen(false);
+			Main.window.setFullScreen(true);
+			
 		});
 		backButton.setOnAction(e -> {
 			Main.window.setScene(Main.startMenu.getScene());
+			Main.window.setFullScreen(false);
+			Main.window.setFullScreen(true);
 		});
-
+		root.setMinHeight(Main.window.getHeight());
+		root.setMinWidth(Main.window.getWidth());
 		Heropick = new Scene(root, Main.window.getHeight(), Main.window.getWidth());
 
 		Main.window.setFullScreen(true);

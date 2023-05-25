@@ -20,7 +20,10 @@ public class Main extends Application {
 		window.setResizable(true);
 		window.setFullScreen(true);
 		window.setFullScreenExitHint("YOU CANNOT ESCAPE PRESS ESC");
-
+		//window.setMinHeight(0);
+		//window.setMinWidth();
+		window.setX(0);
+		window.setY(0);
 		window.setFullScreenExitKeyCombination(KeyCombination.valueOf("ESC"));
 		window.setTitle("The Last of Us");
 		Main.window.centerOnScreen();

@@ -4,12 +4,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 
 public class StartMenu {
 	private Scene start;
 	public String CSS = this.getClass().getResource("start menue scene.css").toExternalForm();
 
 	public StartMenu() {
+		
 		// TODO Auto-generated method stub
 		VBox root = new VBox();
 		Button single = new Button("Single Player");
@@ -24,11 +26,22 @@ public class StartMenu {
 		root.setSpacing(20);
 		root.setAlignment(Pos.CENTER);
 		root.setMinSize(Main.window.getWidth(), Main.window.getHeight());
+		
+
+		Main.window.widthProperty().addListener((observable, oldWidth, newWidth)->{
+			root.setPrefWidth(newWidth.doubleValue());
+			
+		});
+		Main.window.heightProperty().addListener((observable, oldHeight, newHeight)->{
+			root.setPrefHeight(newHeight.doubleValue());
+		});
 
 		single.setOnAction(e -> {
 			Main.HeroPick = new HeroPick();
 			Main.window.setScene(Main.HeroPick.getHeroPick());
-			Main.window.show();
+			Main.window.setFullScreen(false);
+			Main.window.setFullScreen(true);
+			
 		});
 		quit.setOnAction(e -> {
 			System.exit(0);
