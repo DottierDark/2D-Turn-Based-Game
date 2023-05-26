@@ -99,35 +99,26 @@ public class GameMap {
 		
 		for(int i = 0 ; i<15;i++) {
 			for(int j = 0; j<15;j++) {
-			if(Game.map[14-i][j] instanceof CharacterCell) {
-				cell[i][j] = new Cell(((CharacterCell) Game.map[14-i][j]).getCharacter(),i,j);
-				cell[i][j].setPrefSize(CELL_SIZE , CELL_SIZE );
-				cell[i][j].setMinSize(CELL_SIZE , CELL_SIZE );
-				cell[i][j].setMaxSize(CELL_SIZE , CELL_SIZE );
+			if(Game.map[i][j] instanceof CharacterCell) {
+				cell[i][j] = new Cell(((CharacterCell) Game.map[i][j]).getCharacter(),i,j);
 				cell[i][j].setBackground(grassback);
-				mapbox.add(cell[i][j],i,j);
 				}
-			if(Game.map[14-i][j] instanceof CollectibleCell) {
-					cell[i][j] = new Cell(((CollectibleCell) Game.map[14-i][j]).getCollectible(),i,j);
-					cell[i][j].setPrefSize(CELL_SIZE , CELL_SIZE );
-					cell[i][j].setMinSize(CELL_SIZE , CELL_SIZE );
-					cell[i][j].setMaxSize(CELL_SIZE , CELL_SIZE );
-			switch(((CollectibleCell) Game.map[14-i][j]).getCollectible().getClass().getSimpleName()) {
+			if(Game.map[i][j] instanceof CollectibleCell) {
+					cell[i][j] = new Cell(((CollectibleCell) Game.map[i][j]).getCollectible(),i,j);
+			switch(((CollectibleCell) Game.map[i][j]).getCollectible().getClass().getSimpleName()) {
 					case("Vaccine"):cell[i][j].setBackground(vaccineback);break;
 					case("Supply"):cell[i][j].setBackground(supplyback);break;
 					}
-					mapbox.add(cell[i][j],i,j);
 				}
-			if(Game.map[14-i][j] instanceof TrapCell) {
+			if(Game.map[i][j] instanceof TrapCell) {
 				cell[i][j] = new Cell(i,j);
-				cell[i][j].setPrefSize(CELL_SIZE , CELL_SIZE );
-				cell[i][j].setMinSize(CELL_SIZE , CELL_SIZE );
-				cell[i][j].setMaxSize(CELL_SIZE , CELL_SIZE );
 				cell[i][j].setBackground(grassback);
-				mapbox.add(cell[i][j],i,j);
+				
 				}
-				
-				
+			cell[i][j].setPrefSize(CELL_SIZE , CELL_SIZE );
+			cell[i][j].setMinSize(CELL_SIZE , CELL_SIZE );
+			cell[i][j].setMaxSize(CELL_SIZE , CELL_SIZE );
+			mapbox.add(cell[i][j],cell[i][j].y,cell[i][j].x);
 				}
 		}
 			
@@ -135,7 +126,7 @@ public class GameMap {
 	
 		
 		for (Zombie z : Game.zombies) {
-			int X1 = 14-z.getLocation().x;
+			int X1 = z.getLocation().x;
 			int Y1 = z.getLocation().y;
 			zombieCell = new Cell(z,X1,Y1);
 			zombieCell.setPrefSize(CELL_SIZE , CELL_SIZE );
@@ -149,9 +140,9 @@ public class GameMap {
 				}
 			);
 			
-			mapbox.add(zombieCell, Y1, X1);
+			mapbox.add(zombieCell, zombieCell.y, zombieCell.x);
 		}
-		int x = 14-selectedHero.getLocation().x;
+		int x = selectedHero.getLocation().x;
 		int y = selectedHero.getLocation().y ;
 		cellHero = new Cell(selectedHero,x,y);
 		cellHero.setBackground(heroback);
@@ -165,7 +156,7 @@ public class GameMap {
 			}
 		);
 		
-		mapbox.add(cellHero, y, x);
+		mapbox.add(cellHero, cellHero.y, cellHero.x);
 		
 		
 		
@@ -174,6 +165,12 @@ public class GameMap {
 			try {
 				selectedHero.move(Direction.UP);
 				GridPane.setRowIndex(cellHero,(14-selectedHero.getLocation().x));
+				if(cell[selectedHero.getLocation().x][selectedHero.getLocation().y].col !=null) {
+					cell[selectedHero.getLocation().x][selectedHero.getLocation().y].setBackground(grassback);
+					cell[selectedHero.getLocation().x][selectedHero.getLocation().y].col =null;
+				}
+				
+				
 			} catch (MovementException | NotEnoughActionsException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Move");

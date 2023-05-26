@@ -12,16 +12,16 @@ public class Cell extends Pane {
 	
 	public Cell(Character c,int x,int y) {
 		this.c=c;
-		this.x =x;
+		this.x =14-x;
 		this.y=y;
 	}
 	public Cell(Collectible c,int x,int y) {
 		this.col=c;
-		this.x =x;
+		this.x =14-x;
 		this.y=y;
 	}
 	public Cell(int x,int y) {
-		this.x =x;
+		this.x =14-x;
 		this.y=y;
 	}
 	
