@@ -351,6 +351,8 @@ public class GameMap {
 					if (Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() == null) {
 						// Render as grass cell
 						cell[i][j].setBackground(grassback);
+						cell[i][j].col =null;
+						cell[i][j].c =null;
 					} else if (Game.map[i][j] instanceof CollectibleCell
 							&& ((CollectibleCell) Game.map[i][j]).getCollectible() instanceof Vaccine) {
 						// Render as vaccine cell
