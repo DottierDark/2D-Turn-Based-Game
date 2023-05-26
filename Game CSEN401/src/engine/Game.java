@@ -199,7 +199,7 @@ public class Game {
 			try {
 				zombie.attack();
 			} catch (InvalidTargetException | NotEnoughActionsException e) {
-				e.printStackTrace();
+				
 			}
 		});
 		zombies.forEach((zombie) -> {
