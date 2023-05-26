@@ -3,17 +3,27 @@ package views;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.Pane;
 
 public class StartMenu {
 	private Scene start;
 	public String CSS = this.getClass().getResource("start menue scene.css").toExternalForm();
-
+	Image image = new Image("apocalypse.jpg");
+	BackgroundSize rakam =new BackgroundSize(100, 100, true, true, true, true);
+	private Background back = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,rakam));
+	
+	
 	public StartMenu() {
-		
 		// TODO Auto-generated method stub
-		VBox root = new VBox();
+		StackPane root = new StackPane();
+		VBox buttons = new VBox();
 		Button single = new Button("Single Player");
 		Button button2 = new Button("Player Vs AI");
 		Button button3 = new Button("Player Vs Player");
@@ -22,10 +32,10 @@ public class StartMenu {
 		button2.setAlignment(Pos.CENTER);
 		button3.setAlignment(Pos.CENTER);
 		quit.setAlignment(Pos.CENTER);
-		root.getChildren().addAll(single, button2, button3, quit);
-		root.setSpacing(20);
-		root.setAlignment(Pos.CENTER);
-		root.setMinSize(Main.window.getWidth(), Main.window.getHeight());
+		buttons.getChildren().addAll(single, button2, button3, quit);
+		buttons.setSpacing(20);
+		buttons.setAlignment(Pos.CENTER);
+		buttons.setMinSize(Main.window.getWidth(), Main.window.getHeight());
 		
 
 		Main.window.widthProperty().addListener((observable, oldWidth, newWidth)->{
@@ -46,8 +56,10 @@ public class StartMenu {
 		quit.setOnAction(e -> {
 			System.exit(0);
 		});
+		root.getChildren().add(buttons);
+		root.setBackground(back);
 		start = new Scene(root, 500, 500);
-		start.getStylesheets().add(CSS);
+		//start.getStylesheets().add(CSS);
 
 	}
 
